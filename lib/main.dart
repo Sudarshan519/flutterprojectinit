@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:projectinit/pages/join_gathering.dart';
+import 'package:projectinit/pages/home/homepage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,13 +12,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: 'Heart Support',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.pinkAccent.withOpacity(.8),
-          primarySwatch: Colors.blue,
-          backgroundColor: Colors.redAccent),
-      home: const SafeArea(child: JoinGathering()),
+        primaryColor: Colors.white, //Colors.red,
+        // scaffoldBackgroundColor: Colors.pink[200],
+        primarySwatch: Colors.blue,
+      ),
+      home: const HomePage(),
     );
   }
 }
