@@ -7,8 +7,8 @@ import 'package:projectinit/pages/home/homepage.dart';
 class LoginController extends GetxController {
   var loginService = LoginService();
   login(String email, String password, context) async {
-    print(email);
-    print(password);
+    // print(email);
+    // print(password);
     Response resp = await loginService.login(email, password);
     Get.back();
     if (resp.statusCode == 200) {

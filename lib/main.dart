@@ -1,9 +1,11 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:projectinit/pages/home/homepage.dart';
+import 'package:projectinit/pages/splash/splash.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
         // scaffoldBackgroundColor: Colors.pink[200],
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: SplashPage(),
     );
   }
 }

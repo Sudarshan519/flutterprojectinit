@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use, prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/auth/login/login.dart';
@@ -121,7 +123,7 @@ class _HomePageState extends State<HomePage> {
                     .titleMedium!
                     .copyWith(color: Colors.white),
               ),
-              onTap: () => Get.to(const GatheringPage()),
+              onTap: () => Get.to(() => const GatheringPage()),
             ),
             const SizedBox(
               height: 16,
@@ -305,9 +307,11 @@ class _HomePageState extends State<HomePage> {
                       // const Spacer(),
                       const Center(
                         child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                                "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
+                          radius: 50,
+                          backgroundImage:
+                              AssetImage("assets/profile.avif"), //NetworkImage(
+                          //     "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                        ),
                       ),
                     ],
                   ),
@@ -350,8 +354,10 @@ class _HomePageState extends State<HomePage> {
                     const Center(
                       child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: NetworkImage(
-                              "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
+                          backgroundImage: AssetImage("assets/profile.avif")),
+
+                      // NetworkImage(
+                      //     "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")
                     ),
                   ],
                 ),
@@ -368,7 +374,7 @@ class _HomePageState extends State<HomePage> {
                 tabs.length,
                 (index) => InkWell(
                   onTap: () {
-                    Get.to(const GatheringPage());
+                    Get.to(() => const GatheringPage());
                   },
                   child: Container(
                     padding: const EdgeInsets.all(18),
@@ -393,8 +399,9 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(18),
                               color: Colors.black.withOpacity(.5),
                               image: const DecorationImage(
-                                  image: NetworkImage(
-                                      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                                  image: AssetImage("assets/backgournd.avif"),
+                                  // image: NetworkImage(
+                                  //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                                   fit: BoxFit.fill),
                             ),
                             // child: ClipRRect(
@@ -483,7 +490,7 @@ class WelcomePage extends StatelessWidget {
       tabs.length,
       (index) => InkWell(
         onTap: () {
-          Get.to(const GatheringPage());
+          Get.to(() => const GatheringPage());
         },
         child: Container(
           padding: const EdgeInsets.all(18),
@@ -508,8 +515,10 @@ class WelcomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   color: Colors.black.withOpacity(.5),
                   image: const DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                      image: AssetImage("assets/profile.avif"),
+
+                      //  NetworkImage(
+                      //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                       fit: BoxFit.fill),
                 ),
                 // child: ClipRRect(
