@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 
 class ContactPage extends StatelessWidget {
   const ContactPage({Key? key}) : super(key: key);
@@ -20,7 +21,8 @@ class ContactPage extends StatelessWidget {
             height: 26,
           ),
           TextFormField(
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+                labelStyle: Theme.of(context).textTheme.headline6,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 isCollapsed: false,
                 labelText: "Name"),
@@ -30,7 +32,8 @@ class ContactPage extends StatelessWidget {
           ),
           TextFormField(
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
+                labelStyle: Theme.of(context).textTheme.headline6,
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 isCollapsed: false,
                 labelText: "Phone"),
@@ -43,9 +46,31 @@ class ContactPage extends StatelessWidget {
             height: 26,
           ),
           Text(
-            "What services do you require ?",
-            style: Theme.of(context).textTheme.bodyMedium,
+            "What services do you require?",
+            style: Theme.of(context).textTheme.titleMedium,
           ),
+          Row(
+            children: [
+              Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+              const Text("Pulse Rate Monitor"),
+            ],
+          ),
+          Row(
+            children: [
+              Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+              const Text("Pulse Rate Monitor"),
+            ],
+          ),
+          Row(
+            children: [
+              Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+              const Text("Pulse Rate Monitor"),
+            ],
+          ),
+          const SizedBox(
+            height: 18,
+          ),
+          CustomButton(label: "Submit", route: () {})
           // const CustomInputField(label: "Email"),
         ]),
       ),
@@ -62,6 +87,7 @@ class OutlineFormField extends StatelessWidget {
     return TextFormField(
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
+          labelStyle: Theme.of(context).textTheme.headline6,
           floatingLabelBehavior: FloatingLabelBehavior.always,
           isCollapsed: false,
           labelText: label),

@@ -5,15 +5,17 @@ import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/register/register_success.dart';
 
 class RegisterPage extends StatelessWidget {
-  const RegisterPage({Key? key}) : super(key: key);
-
+  RegisterPage({Key? key}) : super(key: key);
+  final date = TextEditingController();
+  final time = TextEditingController();
+  final location = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.grey[400],
         body: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 18),
           child: Column(children: [
             const Align(alignment: Alignment.topLeft, child: BackButton()),
             Text(
@@ -34,19 +36,22 @@ class RegisterPage extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const CustomInputField(
+            CustomInputField(
+              controller: date,
               label: "Enter Date",
             ),
             const SizedBox(
               height: 16,
             ),
-            const CustomInputField(
+            CustomInputField(
               label: "Enter time",
+              controller: time,
             ),
             const SizedBox(
               height: 16,
             ),
-            const CustomInputField(
+            CustomInputField(
+              controller: location,
               label: "Enter location",
             ),
             const SizedBox(

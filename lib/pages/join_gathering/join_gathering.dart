@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 
 class JoinGathering extends StatelessWidget {
-  const JoinGathering({Key? key}) : super(key: key);
-
+  JoinGathering({Key? key}) : super(key: key);
+  final date = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -64,7 +64,8 @@ class JoinGathering extends StatelessWidget {
                 const SizedBox(
                   height: 130,
                 ),
-                const CustomInputField(
+                CustomInputField(
+                  controller: date,
                   label: "Enter date",
                 ),
                 const SizedBox(
@@ -91,18 +92,23 @@ class JoinGathering extends StatelessWidget {
                 const SizedBox(
                   height: 130,
                 ),
-                Text.rich(TextSpan(children: [
-                  TextSpan(
-                      text: "Want to register for \ngathering?",
-                      style: Theme.of(context).textTheme.titleLarge!
-                      // .copyWith(color: Colors.white),
-                      ),
-                  TextSpan(
-                    text: "\tRegister",
-                    style: Theme.of(context).textTheme.headline6!.copyWith(
-                        color: Colors.red[700], fontWeight: FontWeight.bold),
-                  ),
-                ])),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => const GatheringNearby());
+                  },
+                  child: Text.rich(TextSpan(children: [
+                    TextSpan(
+                        text: "Want to register for \ngathering?",
+                        style: Theme.of(context).textTheme.titleLarge!
+                        // .copyWith(color: Colors.white),
+                        ),
+                    TextSpan(
+                      text: "\tRegister",
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.red[700], fontWeight: FontWeight.bold),
+                    ),
+                  ])),
+                ),
                 const SizedBox(
                   height: 40,
                 ),
@@ -115,19 +121,39 @@ class JoinGathering extends StatelessWidget {
 
 class CustomInputField extends StatelessWidget {
   final String label;
-  const CustomInputField({Key? key, required this.label}) : super(key: key);
+  final TextEditingController controller;
+  final bool obscureText;
+  const CustomInputField(
+      {Key? key,
+      required this.label,
+      required this.controller,
+      this.obscureText = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      validator: (v) {
+        if (GetUtils.isBlank(v)!) {
+          return '* Required';
+        }
+        return null;
+      },
       decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.never,
           label: Text(label),
           contentPadding: const EdgeInsets.only(left: 20),
           fillColor: Colors.white,
+          // errorStyle: const TextStyle(color: Colors.white),
           // prefix: Container(
           //   width: 10,
           // ),
+
+          focusedErrorBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(30)),
           enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),

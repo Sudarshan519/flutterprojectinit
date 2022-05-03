@@ -49,7 +49,7 @@ class TrackerPage extends StatelessWidget {
       ),
       ListTile(
         onTap: () {
-          Get.to(() => const JoinGathering());
+          Get.to(() => JoinGathering());
         },
         leading: const Icon(FontAwesomeIcons.heartPulse),
         title: const Text("Pulse Record"),
