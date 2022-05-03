@@ -307,11 +307,9 @@ class _HomePageState extends State<HomePage> {
                       // const Spacer(),
                       const Center(
                         child: CircleAvatar(
-                          radius: 50,
-                          backgroundImage:
-                              AssetImage("assets/profile.avif"), //NetworkImage(
-                          //     "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                        ),
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                                "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
                       ),
                     ],
                   ),
@@ -354,10 +352,8 @@ class _HomePageState extends State<HomePage> {
                     const Center(
                       child: CircleAvatar(
                           radius: 50,
-                          backgroundImage: AssetImage("assets/profile.avif")),
-
-                      // NetworkImage(
-                      //     "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")
+                          backgroundImage: NetworkImage(
+                              "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
                     ),
                   ],
                 ),
@@ -399,9 +395,8 @@ class _HomePageState extends State<HomePage> {
                               borderRadius: BorderRadius.circular(18),
                               color: Colors.black.withOpacity(.5),
                               image: const DecorationImage(
-                                  image: AssetImage("assets/backgournd.avif"),
-                                  // image: NetworkImage(
-                                  //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                                  image: NetworkImage(
+                                      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                                   fit: BoxFit.fill),
                             ),
                             // child: ClipRRect(
@@ -515,10 +510,8 @@ class WelcomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   color: Colors.black.withOpacity(.5),
                   image: const DecorationImage(
-                      image: AssetImage("assets/profile.avif"),
-
-                      //  NetworkImage(
-                      //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                      image: NetworkImage(
+                          "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                       fit: BoxFit.fill),
                 ),
                 // child: ClipRRect(
