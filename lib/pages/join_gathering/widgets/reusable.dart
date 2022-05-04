@@ -19,5 +19,5 @@ getBackButton(context) => IconButton(
     ));
 titleText(context, text, {color = Colors.white}) => Text(text,
     textAlign: TextAlign.center,
-    style: Theme.of(context).textTheme.headline6! //.copyWith(color: color),
+    style: Theme.of(context).textTheme.titleLarge! //.copyWith(color: color),
     );

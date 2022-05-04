@@ -73,18 +73,22 @@ class GatheringNearby extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: "Want to register for \ngathering?",
-                    style: Theme.of(context).textTheme.titleLarge!
-                    // .copyWith(color: Colors.white),
-                    ),
-                TextSpan(
-                  text: "\tRegister",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Colors.red[700], fontWeight: FontWeight.bold),
-                ),
-              ])),
+              // InkWell(
+              //     onTap: () {
+              //       Get.to(() => const GatheringNearby());
+              //     },
+              //     child: Text.rich(TextSpan(children: [
+              //       TextSpan(
+              //           text: "Want to register for \ngathering?",
+              //           style: Theme.of(context).textTheme.titleLarge!
+              //           // .copyWith(color: Colors.white),
+              //           ),
+              //       TextSpan(
+              //         text: "\tRegister",
+              //         style: Theme.of(context).textTheme.headline6!.copyWith(
+              //             color: Colors.red[700], fontWeight: FontWeight.bold),
+              //       ),
+              //     ]))),
               // ListTile(
               //   tileColor: Colors.red,
               //   onTap: () => Get.to(() => const GatheringSuccess()),

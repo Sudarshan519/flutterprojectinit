@@ -81,7 +81,7 @@ class GatheringPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: CustomButton(
                 label: "Join Gathering",
-                route: () => Get.to(() => const JoinGathering()),
+                route: () => Get.to(() => JoinGathering()),
               ),
             ),
             const SizedBox(

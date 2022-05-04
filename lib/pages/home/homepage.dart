@@ -7,14 +7,15 @@ import 'package:projectinit/pages/contact/contact.dart';
 import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var tabs = [
-  "About Heart",
-  "Balanced Diet",
-  "Good Sleep",
-  "Regular Exercise",
-  "Donate Here",
-  "Learn More"
+  "About \nHeart",
+  "Balanced \nDiet",
+  "Good \nSleep",
+  "Regular \nExercise",
+  "Donate\n Here",
+  "Learn\n More"
 ];
 
 class HomePage extends StatefulWidget {
@@ -59,10 +60,25 @@ class _HomePageState extends State<HomePage> {
           showUnselectedLabels: false,
           unselectedItemColor: Colors.grey,
           selectedItemColor: Colors.red,
-          items: const [
-            BottomNavigationBarItem(label: "", icon: Icon(Icons.menu)),
-            BottomNavigationBarItem(label: "", icon: Icon(Icons.heart_broken)),
-            BottomNavigationBarItem(label: "", icon: Icon(Icons.house)),
+          items: [
+            const BottomNavigationBarItem(label: "", icon: Icon(Icons.menu)),
+            const BottomNavigationBarItem(label: "", icon: Icon(Icons.house)),
+            const BottomNavigationBarItem(
+                label: "",
+                icon: Icon(
+                  FontAwesomeIcons.heartPulse,
+                  size: 18,
+                )),
+            BottomNavigationBarItem(
+              label: "",
+              icon: Transform.rotate(
+                angle: 15,
+                child: const Icon(
+                  FontAwesomeIcons.handshake,
+                  size: 18,
+                ),
+              ),
+            ),
           ]),
       // appBar: AppBar(
       //   actions: const [],
@@ -87,6 +103,16 @@ class _HomePageState extends State<HomePage> {
             //     ),
             //     accountName: Text("Heart Support"),
             //     accountEmail: Text("abc@gmail.com")),
+
+            ListTile(
+              tileColor: Colors.red,
+              // leading: const Icon(Icons.info_outline_rounded),
+              title: const Icon(Icons.arrow_back, color: Colors.white),
+              onTap: () => Get.back(),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             ListTile(
               tileColor: Colors.red,
               // leading: const Icon(Icons.info_outline_rounded),
@@ -94,10 +120,10 @@ class _HomePageState extends State<HomePage> {
                 "View Gathering",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
-              onTap: () => Get.to(const GatheringPage()),
+              onTap: () => Get.to(() => const GatheringPage()),
             ),
             const SizedBox(
               height: 16,
@@ -109,10 +135,10 @@ class _HomePageState extends State<HomePage> {
                 "Join Gathering",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
-              onTap: () => Get.to(const JoinGathering()),
+              onTap: () => Get.to(() => JoinGathering()),
             ),
             const SizedBox(
               height: 16,
@@ -124,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                 "About Us",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
               onTap: () => showAboutDialog(
@@ -147,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                 "Contact Us",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
               onTap: () => Get.to(() => const ContactPage()),
@@ -162,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                 "Send Feedback",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
               onTap: () => showAboutDialog(context: context),
@@ -177,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                 "About App",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
               onTap: () => showAboutDialog(
@@ -200,7 +226,7 @@ class _HomePageState extends State<HomePage> {
                 "Sign Out",
                 style: Theme.of(context)
                     .textTheme
-                    .headline6!
+                    .titleMedium!
                     .copyWith(color: Colors.white),
               ),
               onTap: () {
@@ -210,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Text(
                         "Are you sure you want to exit?",
-                        style: Theme.of(context).textTheme.headline6,
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                       const SizedBox(
                         height: 40,
@@ -222,7 +248,8 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: OutlinedButton(
                                 onPressed: () {
-                                  Get.to(() => const LoginPage());
+                                  Get.back();
+                                  Get.to(() => LoginPage());
                                 },
                                 child: Text(
                                   "Yes",
@@ -292,9 +319,7 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(
                   height: 30,
                 ),
-                SizedBox(
-                    height: MediaQuery.of(context).size.height - 200,
-                    child: const WelcomePage()),
+                const WelcomePage(),
                 // logoWidget(),
                 // const ButtonWidget(),
               ],
@@ -302,6 +327,138 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SafeArea(child: TrackerPage()),
+        SafeArea(
+            child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Text(
+                      "Welcome Judy",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    // const Spacer(),
+                    const Center(
+                      child: CircleAvatar(
+                          radius: 50,
+                          backgroundImage: NetworkImage(
+                              "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              Wrap(
+                  // itemCount: tabs.length,
+                  // gridDelegate:
+                  //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                  children: // (BuildContext context, int index) =>
+                      List.generate(
+                tabs.length,
+                (index) => InkWell(
+                  onTap: () {
+                    Get.to(() => const GatheringPage());
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(18),
+                    // alignment: Alignment.center,
+                    // decoration: BoxDecoration(
+                    //   borderRadius: BorderRadius.circular(18),
+                    //   color: Colors.black.withOpacity(.5),
+                    //   image: const DecorationImage(
+                    //       image: NetworkImage(
+                    //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                    //       fit: BoxFit.fill),
+                    // ),
+                    height: 200,
+                    width: 180,
+                    child: Column(children: [
+                      Stack(
+                        children: [
+                          Container(
+                            height: 120,
+                            width: 120,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(18),
+                              color: Colors.black.withOpacity(.5),
+                              image: const DecorationImage(
+                                  image: NetworkImage(
+                                      "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                                  fit: BoxFit.fill),
+                            ),
+                            // child: ClipRRect(
+                            //   borderRadius: BorderRadius.circular(16),
+                            //   child: Image.network(
+                            //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                            //     fit: BoxFit.fill,
+                            //     height: 120,
+                            //     width: double.infinity,
+                            //   ),
+                            // ),
+                          ),
+                          Container(
+                            height: 120,
+                            width: 120,
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(18),
+                                color: Colors.black.withOpacity(.5)),
+                            child: Text(
+                              tabs[index],
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors
+                                          .white), // style: const TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(Icons.edit),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Icon(Icons.delete)
+                        ],
+                      )
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // Text(
+                      //   tabs[index],
+                      //   style: Theme.of(context).textTheme.bodyLarge,
+                      // ),
+                    ]),
+                  ),
+                ),
+              ))
+            ],
+          ),
+        ))
       ][activeIndex],
     );
   }
@@ -330,7 +487,7 @@ class WelcomePage extends StatelessWidget {
       tabs.length,
       (index) => InkWell(
         onTap: () {
-          Get.to(const GatheringPage());
+          Get.to(() => const GatheringPage());
         },
         child: Container(
           padding: const EdgeInsets.all(18),
@@ -379,7 +536,8 @@ class WelcomePage extends StatelessWidget {
                 child: Text(
                   tabs[index],
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline5!.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w400,
                       color: Colors
                           .white), // style: const TextStyle(color: Colors.white),
                 ),

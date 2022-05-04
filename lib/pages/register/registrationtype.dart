@@ -40,7 +40,7 @@ class RegistrationType extends StatelessWidget {
                     margin:
                         const EdgeInsets.only(bottom: 20, left: 20, right: 20),
                     child: ListTile(
-                      onTap: () => Get.to(() => const RegisterPage()),
+                      onTap: () => Get.to(() => RegisterPage()),
                       tileColor: Colors.red,
                       title: Text(
                         e.title.toString() + " Groups",
@@ -55,18 +55,23 @@ class RegistrationType extends StatelessWidget {
               const SizedBox(
                 height: 60,
               ),
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text: "Want to register for \ngathering?",
-                    style: Theme.of(context).textTheme.titleLarge!
-                    // .copyWith(color: Colors.white),
-                    ),
-                TextSpan(
-                  text: "\tRegister",
-                  style: Theme.of(context).textTheme.headline6!.copyWith(
-                      color: Colors.red[700], fontWeight: FontWeight.bold),
-                ),
-              ])),
+              GestureDetector(
+                onTap: () {
+                  Get.to(() => const GatheringNearby());
+                },
+                child: Text.rich(TextSpan(children: [
+                  TextSpan(
+                      text: "Want to register for \ngathering?",
+                      style: Theme.of(context).textTheme.titleLarge!
+                      // .copyWith(color: Colors.white),
+                      ),
+                  TextSpan(
+                    text: "\tRegister",
+                    style: Theme.of(context).textTheme.headline6!.copyWith(
+                        color: Colors.red[700], fontWeight: FontWeight.bold),
+                  ),
+                ])),
+              ),
             ],
           ),
         ),

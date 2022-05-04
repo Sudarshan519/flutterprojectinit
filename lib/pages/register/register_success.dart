@@ -26,6 +26,7 @@ class RegistrationSuccess extends StatelessWidget {
                 backgroundColor: Colors.red,
                 child: Icon(
                   Icons.done_rounded,
+                  color: Colors.white,
                   size: 90,
                 ),
               ),
