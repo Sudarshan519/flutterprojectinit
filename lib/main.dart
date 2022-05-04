@@ -14,18 +14,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      title: 'Heart Support',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          scaffoldBackgroundColor: Colors.pink[200], primarySwatch: Colors.red),
-      home: HomePage(),
-
-      title: 'Flutter Demo',
-
-      // theme: ThemeData(
-      //     scaffoldBackgroundColor: Colors.pinkAccent.withOpacity(.8),
-      //     primarySwatch: Colors.blue,
-      //     backgroundColor: Colors.redAccent),
-      // home: SafeArea(child: JoinGathering()),
+        primaryColor: Colors.white, //Colors.red,
+        // scaffoldBackgroundColor: Colors.pink[200],
+        primarySwatch: Colors.blue,
+      ),
+      home: const HomePage(),
     );
   }
 }

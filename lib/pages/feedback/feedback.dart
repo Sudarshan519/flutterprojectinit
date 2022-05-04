@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+
+class FeedbackPage extends StatefulWidget {
+  const FeedbackPage({Key? key}) : super(key: key);
+
+  @override
+  State<FeedbackPage> createState() => _FeedbackPageState();
+}
+
+class _FeedbackPageState extends State<FeedbackPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: Column(children: [
+          Text(
+            "Add your feedback",
+            style: Theme.of(context).textTheme.headline5,
+          )
+        ]),
+      ),
+    );
+  }
+}
