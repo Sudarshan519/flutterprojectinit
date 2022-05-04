@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 
@@ -9,19 +8,20 @@ class LoginController extends GetxController {
   login(String email, String password, context) async {
     // print(email);
     // print(password);
-    Response resp = await loginService.login(email, password);
+    // Response resp = await loginService.login(email, password);
     Get.back();
-    if (resp.statusCode == 200) {
-      print(resp.body);
-      Get.back();
-      Get.to(() => const HomePage());
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(resp.statusText!)));
-    } else {
-      print(resp.body);
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text("Invalid Credentials")));
-    }
+    Get.to(() => const HomePage());
+    // if (resp.statusCode == 200) {
+    //   print(resp.body);
+    //   Get.back();
+    //   Get.to(() => const HomePage());
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(SnackBar(content: Text(resp.statusText!)));
+    // } else {
+    //   print(resp.body);
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(const SnackBar(content: Text("Invalid Credentials")));
+    // }
   }
 }
 

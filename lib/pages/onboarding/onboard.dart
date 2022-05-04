@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:projectinit/pages/home/homepage.dart';
+import 'package:projectinit/pages/auth/login/login.dart';
 import 'package:get/get.dart';
 
 class OnBoardingPage extends StatelessWidget {
@@ -110,7 +110,7 @@ class OnBoardingPage extends StatelessWidget {
                           primary: Colors.red,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(36))),
-                      onPressed: () => Get.off(() => const HomePage()),
+                      onPressed: () => Get.off(() => LoginPage()),
                       child: const Text("Get Started")))
               // CustomButton(label: "Get Started", route: () {})
             ],

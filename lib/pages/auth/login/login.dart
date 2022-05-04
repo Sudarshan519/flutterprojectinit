@@ -3,6 +3,7 @@ import 'package:projectinit/controllers/loginController.dart';
 import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
@@ -14,7 +15,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar:
-      backgroundColor: Colors.pink[200],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -25,21 +26,22 @@ class LoginPage extends StatelessWidget {
               children: [
                 AppBar(
                   elevation: 0,
-                  backgroundColor: Colors.pink[200],
+                  backgroundColor: Colors.grey[200],
+                  // backgroundColor: Colors.pink[200],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 Text(
                   "Welcome Back ",
                   style: Theme.of(context)
                       .textTheme
                       .headline4!
-                      .copyWith(color: Colors.white),
+                      .copyWith(color: Colors.black),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 const Icon(
-                  Icons.heart_broken,
+                  FontAwesomeIcons.heartPulse,
                   size: 120,
                   color: Colors.red,
                 ),
@@ -98,8 +100,8 @@ class LoginPage extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
                           // print(formKey.currentState);
-                          print(email.text);
-                          print(password.text);
+                          // print(email.text);
+                          // print(password.text);
                           if (formKey.currentState!.validate()) {
                             {
                               Get.dialog(AlertDialog(
@@ -131,12 +133,10 @@ class LoginPage extends StatelessWidget {
                   child: Text.rich(
                     TextSpan(children: [
                       TextSpan(
-                        text: "Dont have account \n ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(color: Colors.white),
-                      ),
+                          text: "Don't have an account ?\n ",
+                          style: Theme.of(context).textTheme.headline6!
+                          // .copyWith(color: Colors.white),
+                          ),
                       TextSpan(
                         text: " Register ",
                         style: Theme.of(context)
@@ -170,7 +170,7 @@ class SignupPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar:
-      backgroundColor: Colors.pink[200],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -180,8 +180,15 @@ class SignupPage extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AppBar(
+                  leading: IconButton(
+                    icon: const Icon(
+                      Icons.arrow_back,
+                      color: Colors.black,
+                    ),
+                    onPressed: () => Get.back(),
+                  ),
                   elevation: 0,
-                  backgroundColor: Colors.pink[200],
+                  backgroundColor: Colors.grey[200],
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -190,7 +197,7 @@ class SignupPage extends StatelessWidget {
                   style: Theme.of(context)
                       .textTheme
                       .headline5!
-                      .copyWith(color: Colors.white),
+                      .copyWith(color: Colors.black),
                 ),
                 // const SizedBox(
                 //   height: 20,
@@ -305,8 +312,8 @@ class SignupPage extends StatelessWidget {
                         text: "Already have account \n ",
                         style: Theme.of(context)
                             .textTheme
-                            .headline5!
-                            .copyWith(color: Colors.white),
+                            .headline6!
+                            .copyWith(color: Colors.black),
                       ),
                       TextSpan(
                         text: " Sign in ",
