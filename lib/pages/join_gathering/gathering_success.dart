@@ -41,7 +41,7 @@ class GatheringSuccess extends StatelessWidget {
                 height: 200,
                 width: MediaQuery.of(context).size.width * .7,
                 child: Text(
-                  "Judy's Meeting Group \nDate-18/09/2022 \nTime-6:00 pm \nLocation=Auburn Central",
+                  "Judy's Meeting Group \nDate : 18/09/2022 \nTime : 6:00 pm \nLocation : Auburn Central",
                   style: TextStyle(
                     color: Colors.red[600],
                     fontSize: 18,

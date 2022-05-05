@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:projectinit/controllers/loginController.dart';
-import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:projectinit/utils/validators.dart';
 
 class LoginPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
-  final loginController = Get.put(LoginController());
+  final loginController = Get.put(
+    AuthController(),
+  );
   LoginPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,14 +24,8 @@ class LoginPage extends StatelessWidget {
           child: Form(
             key: formKey,
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppBar(
-                  elevation: 0,
-                  backgroundColor: Colors.grey[200],
-                  // backgroundColor: Colors.pink[200],
-                ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
                 Text(
                   "Welcome Back ",
                   style: Theme.of(context)
@@ -56,19 +52,18 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 18,
                 ),
-                // Text("Sign In",
-                //     textAlign: TextAlign.justify,
-                //     style: Theme.of(context).textTheme.headline3),
-                // Image.network(
-                //     "https://images.unsplash.com/photo-1598816379790-43364e52c3e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdlbGNvbWUlMjBsb2dpbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                 const SizedBox(
                   height: 46,
                 ),
-                CustomInputField(controller: email, label: "9377372772"),
+                CustomInputField(
+                    validator: validateEmail,
+                    controller: email,
+                    label: "example@email.com"),
                 const SizedBox(
                   height: 30,
                 ),
                 CustomInputField(
+                  validator: validatePassword,
                   obscureText: true,
                   label: "********",
                   controller: password,
@@ -99,21 +94,11 @@ class LoginPage extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10))),
                         onPressed: () {
-                          // print(formKey.currentState);
-                          // print(email.text);
-                          // print(password.text);
                           if (formKey.currentState!.validate()) {
                             {
-                              Get.dialog(AlertDialog(
-                                content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Center(child: CircularProgressIndicator())
-                                    ]),
-                              ));
+                              loginController.login(
+                                  email.text, password.text, context);
                             }
-                            loginController.login(
-                                email.text, password.text, context);
                           }
                         },
                         child: Text(
@@ -134,9 +119,7 @@ class LoginPage extends StatelessWidget {
                     TextSpan(children: [
                       TextSpan(
                           text: "Don't have an account ?\n ",
-                          style: Theme.of(context).textTheme.headline6!
-                          // .copyWith(color: Colors.white),
-                          ),
+                          style: Theme.of(context).textTheme.headline6!),
                       TextSpan(
                         text: " Register ",
                         style: Theme.of(context)
@@ -164,7 +147,8 @@ class SignupPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
   final email = TextEditingController();
   final password = TextEditingController();
-
+  final cpassword = TextEditingController();
+  final AuthController authController = Get.find();
   SignupPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -177,20 +161,8 @@ class SignupPage extends StatelessWidget {
           child: Form(
             key: formKey,
             child: Column(
-              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AppBar(
-                  leading: IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                      color: Colors.black,
-                    ),
-                    onPressed: () => Get.back(),
-                  ),
-                  elevation: 0,
-                  backgroundColor: Colors.grey[200],
-                ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Text(
                   "Welcome \nto Heart Support Australia ",
                   textAlign: TextAlign.center,
@@ -199,46 +171,27 @@ class SignupPage extends StatelessWidget {
                       .headline5!
                       .copyWith(color: Colors.black),
                 ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // const Icon(
-                //   Icons.heart_broken,
-                //   size: 120,
-                //   color: Colors.red,
-                // ),
-                // Text(
-                //   "Heart Support",
-                //   textAlign: TextAlign.end,
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .headline3!
-                //       .copyWith(color: Colors.red),
-                // ),
-                // const SizedBox(
-                //   height: 18,
-                // ),
-                // Text("Sign In",
-                //     textAlign: TextAlign.justify,
-                //     style: Theme.of(context).textTheme.headline3),
-                // Image.network(
-                //     "https://images.unsplash.com/photo-1598816379790-43364e52c3e1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTd8fHdlbGNvbWUlMjBsb2dpbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
                 const SizedBox(
                   height: 46,
                 ),
-                CustomInputField(controller: email, label: "Enter your name"),
-                const SizedBox(
-                  height: 30,
-                ),
+                // CustomInputField(
+                //     validator: validateIsEmpty,
+                //     controller: email,
+                //     label: "Enter your name"),
+                // const SizedBox(
+                //   height: 30,
+                // ),
                 CustomInputField(
-                  label: "Enter your number",
-                  controller: password,
+                  label: "Enter your email",
+                  validator: validateEmail,
+                  controller: email,
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 CustomInputField(
                   label: "Enter password",
+                  validator: validatePassword,
                   controller: password,
                 ),
                 const SizedBox(
@@ -246,50 +199,39 @@ class SignupPage extends StatelessWidget {
                 ),
                 CustomInputField(
                   label: "Confirm password",
-                  controller: password,
+                  controller: cpassword,
+                  validator: (String? v) {
+                    if (v! == "") {
+                      return '* Required';
+                    } else if (v == password.text) {
+                      return null;
+                    } else {
+                      return "Password don't match";
+                    }
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.end,
-                //   children: [
-                //     Text(
-                //       "Forget Password",
-                //       style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                //             color: Colors.red,
-                //           ),
-                //     ),
-                //   ],
-                // ),
                 const SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                     width: double.infinity,
-                    height: 60,
+                    height: 50,
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.red,
-                          // shape: RoundedRectangleBorder(
-                          //     borderRadius: BorderRadius.circular(10)),
                         ),
                         onPressed: () {
-                          // print(formKey.currentState);
                           if (formKey.currentState!.validate()) {
                             {
-                              Get.dialog(AlertDialog(
-                                content: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: const [
-                                      Center(child: CircularProgressIndicator())
-                                    ]),
-                              ));
+                              authController.signup(
+                                  email.text, password.text, context);
                             }
-                            Future.delayed(3.seconds, () {
-                              Get.back();
-                              Get.to(() => const HomePage());
-                            });
+                            // email.clear();
+                            // password.clear();
+                            // cpassword.clear();
                           }
                         },
                         child: Text(
@@ -304,7 +246,7 @@ class SignupPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Get.to(() => LoginPage());
+                    Get.back();
                   },
                   child: Text.rich(
                     TextSpan(children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
+import 'package:projectinit/utils/validators.dart';
 
 class JoinGathering extends StatelessWidget {
   JoinGathering({Key? key}) : super(key: key);
@@ -65,6 +66,7 @@ class JoinGathering extends StatelessWidget {
                   height: 130,
                 ),
                 CustomInputField(
+                  validator: validateIsEmpty,
                   controller: date,
                   label: "Enter date",
                 ),
@@ -123,24 +125,24 @@ class CustomInputField extends StatelessWidget {
   final String label;
   final TextEditingController controller;
   final bool obscureText;
+  final validator;
+  final bool isEnable;
   const CustomInputField(
       {Key? key,
       required this.label,
       required this.controller,
-      this.obscureText = false})
+      this.obscureText = false,
+      this.validator,
+      this.isEnable = true})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: isEnable,
       controller: controller,
       obscureText: obscureText,
-      validator: (v) {
-        if (GetUtils.isBlank(v)!) {
-          return '* Required';
-        }
-        return null;
-      },
+      validator: validator,
       decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.never,
           label: Text(label),

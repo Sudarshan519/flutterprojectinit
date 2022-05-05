@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/auth/login/login.dart';
 import 'package:projectinit/pages/contact/contact.dart';
 import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
@@ -25,12 +26,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final homeController = Get.put(HomeController());
   int activeIndex = 1;
   var homeTabs = [
-    Container(),
-    const HomeWidget(),
+    HomeWidget(),
     const SafeArea(child: TrackerPage()),
-    const HomeEditWidget()
+    HomeEditWidget()
   ];
   var navItems = [
     const BottomNavigationBarItem(label: "", icon: Icon(Icons.menu)),
@@ -64,34 +65,82 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      bottomNavigationBar: BottomNavigationBar(
-          onTap: (i) {
-            if (i == 0) {
-              scaffoldKey.currentState!.openDrawer();
-            } else {
-              changeTab(i);
-            }
-          },
-          currentIndex: activeIndex,
-          backgroundColor: Theme.of(context).primaryColor,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.red,
-          items: navItems),
-      drawer: const DrawerPage(),
-      body: homeTabs[activeIndex],
+    return WillPopScope(
+      onWillPop: () async {
+        Get.dialog(AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Are you sure you want to exit?",
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          Get.back();
+                          Get.offAll(() => LoginPage());
+                        },
+                        child: Text(
+                          "Yes",
+                          style: Theme.of(context).textTheme.bodyText1,
+                        )),
+                  ),
+                  // const Spacer(),
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          Get.back();
+                        },
+                        child: Text(
+                          "No",
+                          style: Theme.of(context).textTheme.bodyText1,
+                        )),
+                  ),
+                  // const Spacer(),
+                ],
+              )
+            ],
+          ),
+        ));
+        return false;
+      },
+      child: Scaffold(
+        key: scaffoldKey,
+        bottomNavigationBar: BottomNavigationBar(
+            onTap: (i) {
+              if (i == 0) {
+                scaffoldKey.currentState!.openDrawer();
+              } else {
+                changeTab(i);
+              }
+            },
+            currentIndex: activeIndex,
+            backgroundColor: Theme.of(context).primaryColor,
+            showSelectedLabels: false,
+            showUnselectedLabels: false,
+            unselectedItemColor: Colors.grey,
+            selectedItemColor: Colors.red,
+            items: navItems),
+        drawer: const DrawerPage(),
+        body: homeTabs[activeIndex - 1],
+      ),
     );
   }
 }
 
 class HomeEditWidget extends StatelessWidget {
-  const HomeEditWidget({
+  HomeEditWidget({
     Key? key,
   }) : super(key: key);
-
+  final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -109,23 +158,38 @@ class HomeEditWidget extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Text(
-                  "Welcome Judy",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(fontSize: 30),
-                ),
+                Obx(() => Text(
+                      "Welcome ${homeController.user["displayName"].toString()}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(fontSize: 30),
+                    )),
                 const SizedBox(
                   height: 30,
                 ),
                 // const Spacer(),
-                const Center(
-                  child: CircleAvatar(
-                      radius: 50,
-                      backgroundImage: NetworkImage(
-                          "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60")),
+                Container(
+                  height: 100,
+                  width: 100,
+                  decoration: const BoxDecoration(
+                      // shape: BoxShape.circle,
+                      // color: Colors.grey,
+                      ),
+                  child: Stack(alignment: Alignment.center, children: const [
+                    CircleAvatar(
+                        radius: 50,
+                        backgroundImage: AssetImage("assets/profile.jpg")),
+                    Align(
+                        alignment: Alignment.bottomLeft,
+                        child: CircleAvatar(
+                          child: Icon(
+                            Icons.edit,
+                            color: Colors.red,
+                          ),
+                        ))
+                  ]),
                 ),
               ],
             ),
@@ -140,23 +204,23 @@ class HomeEditWidget extends StatelessWidget {
               children: // (BuildContext context, int index) =>
                   List.generate(
             tabs.length,
-            (index) => InkWell(
-              onTap: () {
-                Get.to(() => const GatheringPage());
-              },
-              child: Container(
-                padding: const EdgeInsets.all(18),
-                // alignment: Alignment.center,
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(18),
-                //   color: Colors.black.withOpacity(.5),
-                //   image: const DecorationImage(
-                //       image: NetworkImage(
-                //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                //       fit: BoxFit.fill),
-                // ),
-                height: 200,
-                width: 180,
+            (index) => Container(
+              padding: const EdgeInsets.all(18),
+              // alignment: Alignment.center,
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(18),
+              //   color: Colors.black.withOpacity(.5),
+              //   image: const DecorationImage(
+              //       image: NetworkImage(
+              //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+              //       fit: BoxFit.fill),
+              // ),
+              height: 200,
+              width: 180,
+              child: InkWell(
+                onTap: () {
+                  Get.to(() => const GatheringPage());
+                },
                 child: Column(children: [
                   Stack(
                     children: [
@@ -229,10 +293,10 @@ class HomeEditWidget extends StatelessWidget {
 }
 
 class HomeWidget extends StatelessWidget {
-  const HomeWidget({
+  HomeWidget({
     Key? key,
   }) : super(key: key);
-
+  final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -251,7 +315,7 @@ class HomeWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    "Welcome Judy",
+                    "Welcome ${homeController.user['displayName'].toString()}",
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -450,7 +514,7 @@ class DrawerPage extends StatelessWidget {
                           child: OutlinedButton(
                               onPressed: () {
                                 Get.back();
-                                Get.to(() => LoginPage());
+                                Get.offAll(() => LoginPage());
                               },
                               child: Text(
                                 "Yes",
@@ -506,25 +570,25 @@ class WelcomePage extends StatelessWidget {
         children: // (BuildContext context, int index) =>
             List.generate(
       tabs.length,
-      (index) => InkWell(
-        onTap: () {
-          Get.to(() => const GatheringPage());
-        },
-        child: Container(
-          padding: const EdgeInsets.all(18),
-          // alignment: Alignment.center,
-          // decoration: BoxDecoration(
-          //   borderRadius: BorderRadius.circular(18),
-          //   color: Colors.black.withOpacity(.5),
-          //   image: const DecorationImage(
-          //       image: NetworkImage(
-          //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-          //       fit: BoxFit.fill),
-          // ),
-          height: 180,
-          width: 180,
-          child: //Column(children: [
-              Stack(
+      (index) => Container(
+        padding: const EdgeInsets.all(18),
+        // alignment: Alignment.center,
+        // decoration: BoxDecoration(
+        //   borderRadius: BorderRadius.circular(18),
+        //   color: Colors.black.withOpacity(.5),
+        //   image: const DecorationImage(
+        //       image: NetworkImage(
+        //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+        //       fit: BoxFit.fill),
+        // ),
+        height: 180,
+        width: 180,
+        child: //Column(children: [
+            InkWell(
+          onTap: () {
+            Get.to(() => const GatheringPage());
+          },
+          child: Stack(
             children: [
               Container(
                 // height: 120,
@@ -533,7 +597,7 @@ class WelcomePage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   color: Colors.black.withOpacity(.5),
                   image: const DecorationImage(
-                      image: AssetImage("assets/food2.jpg"), fit: BoxFit.fill),
+                      image: AssetImage("assets/food.jpg"), fit: BoxFit.fill),
                 ),
                 // child: ClipRRect(
                 //   borderRadius: BorderRadius.circular(16),

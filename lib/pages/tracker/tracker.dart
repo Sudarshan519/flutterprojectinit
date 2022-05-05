@@ -51,23 +51,47 @@ class TrackerPage extends StatelessWidget {
         onTap: () {
           Get.to(() => JoinGathering());
         },
-        leading: const Icon(FontAwesomeIcons.heartPulse),
-        title: const Text("Pulse Record"),
+        leading: const Icon(
+          FontAwesomeIcons.heartPulse,
+          color: Colors.red,
+        ),
+        title: Text(
+          "Pulse Record",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
       ListTile(
         onTap: () {},
-        leading: const Icon(FontAwesomeIcons.heartCircleCheck),
-        title: const Text("Rythm Record"),
+        leading: const Icon(
+          FontAwesomeIcons.heartCircleCheck,
+          color: Colors.red,
+        ),
+        title: Text(
+          "Rythm Record",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
       ListTile(
         onTap: () {},
-        leading: const Icon(FontAwesomeIcons.heartCircleCheck),
-        title: const Text("Pressure Record"),
+        leading: const Icon(
+          FontAwesomeIcons.heartCircleCheck,
+          color: Colors.red,
+        ),
+        title: Text(
+          "Pressure Record",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
       ListTile(
         onTap: () {},
-        leading: const Icon(FontAwesomeIcons.houseMedicalCircleExclamation),
-        title: const Text("Medication Record"),
+        leading: const Icon(
+          FontAwesomeIcons.houseMedicalCircleExclamation,
+          color: Colors.red,
+        ),
+        title: Text(
+          "Medication Record",
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
       ),
       // Padding(
       //   padding: const EdgeInsets.symmetric(horizontal: 40),

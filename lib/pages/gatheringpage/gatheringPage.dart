@@ -3,6 +3,7 @@ import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/register/registrationtype.dart';
+import 'package:projectinit/pages/viewgathering/viewgatheringPage.dart';
 
 class GatheringPage extends StatelessWidget {
   const GatheringPage({Key? key}) : super(key: key);
@@ -33,8 +34,7 @@ class GatheringPage extends StatelessWidget {
               height: 250,
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(
-                          "https://images.unsplash.com/photo-1469571486292-0ba58a3f068b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8Y29ubmVjdCUyMGhlYXJ0fGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"),
+                      image: AssetImage("assets/peopleheart.jpg"),
                       fit: BoxFit.fill)),
               // width: 300,
               // decoration: BoxDecoration(border: Border.all(color: Colors.red)),
@@ -46,7 +46,7 @@ class GatheringPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: CustomButton(
                   label: "Register for Gathering",
-                  route: () {
+                  onPressed: () {
                     Get.to(() => const RegistrationType());
                   }),
             ),
@@ -64,13 +64,18 @@ class GatheringPage extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  "View",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.red[700], fontSize: 16),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(const ViewGathering());
+                  },
+                  child: Text(
+                    "View",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.red[700], fontSize: 16),
+                  ),
                 ),
               ],
             ),
@@ -81,7 +86,7 @@ class GatheringPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: CustomButton(
                 label: "Join Gathering",
-                route: () => Get.to(() => JoinGathering()),
+                onPressed: () => Get.to(() => JoinGathering()),
               ),
             ),
             const SizedBox(
@@ -98,14 +103,19 @@ class GatheringPage extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Text(
-                  "View",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.red[700], fontSize: 16),
-                ),
+                GestureDetector(
+                  onTap: () {
+                    Get.to(const ViewGathering());
+                  },
+                  child: Text(
+                    "View",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.red[700], fontSize: 16),
+                  ),
+                )
               ],
             ),
             const SizedBox(

@@ -70,7 +70,7 @@ class ContactPage extends StatelessWidget {
           const SizedBox(
             height: 18,
           ),
-          CustomButton(label: "Submit", route: () {})
+          CustomButton(label: "Submit", onPressed: () {})
           // const CustomInputField(label: "Email"),
         ]),
       ),

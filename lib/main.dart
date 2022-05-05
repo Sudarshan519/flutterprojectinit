@@ -1,11 +1,16 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/firebase_options.dart';
 import 'package:projectinit/pages/splash/splash.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +26,7 @@ class MyApp extends StatelessWidget {
         //  scaffoldBackgroundColor: Colors.pink[200],
         primarySwatch: Colors.blue,
       ),
-      home: SplashPage(),
+      home: const SplashPage(),
     );
   }
 }

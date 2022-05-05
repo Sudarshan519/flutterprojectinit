@@ -46,7 +46,7 @@ class GatheringNearby extends StatelessWidget {
                 children: buttons
                     .map((e) => CustomButton(
                           label: e.title.toString(),
-                          route: () {},
+                          onPressed: () {},
                         ))
                     .toList(),
               ),
@@ -124,29 +124,29 @@ class GatheringNearby extends StatelessWidget {
 
 class CustomButton extends StatelessWidget {
   final String label;
-  final Function() route;
-  const CustomButton({Key? key, required this.label, required this.route})
+  final Function() onPressed;
+  const CustomButton({Key? key, required this.label, required this.onPressed})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: route,
-      child: Container(
-          alignment: Alignment.center,
-          margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-          height: 50,
-          decoration: const BoxDecoration(
-            // borderRadius: BorderRadius.circular(4),
-            color: Colors.red,
-          ),
-          // width: double.infinity,
-          child: Text(label,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold))),
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+      height: 50,
+      decoration: BoxDecoration(
+        // borderRadius: BorderRadius.circular(4),
+        color: label == "Waiting" ? Colors.grey : Colors.red,
+      ),
+      child: InkWell(
+        onTap: onPressed,
+        child: Text(label,
+            style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold)),
+      ),
     );
   }
 }

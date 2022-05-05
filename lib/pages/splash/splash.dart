@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
   navigate() {
-    Timer((const Duration(seconds: 3)), () {
+    Timer((const Duration(seconds: 2)), () {
       Get.off(() => const OnBoardingPage());
     });
   }
