@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
-import 'package:projectinit/pages/register/register_success.dart';
+import 'package:projectinit/services/firestoreService.dart';
 import 'package:projectinit/utils/validators.dart';
+import 'package:get/get.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({Key? key}) : super(key: key);
@@ -69,8 +70,21 @@ class RegisterPage extends StatelessWidget {
                   child: CustomButton(
                       label: "Register",
                       onPressed: () {
+                        final HomeController homeController = Get.find();
+                        // print("validating");
                         if (fomrKey.currentState!.validate()) {
-                          Get.to(() => const RegistrationSuccess());
+                          var data = {
+                            "date": date.text,
+                            "location": location.text,
+                            "time": time.text,
+                            "type": Get.arguments,
+                            "userid":
+                                homeController.authService.currentUser!.uid,
+                            "username": homeController
+                                .authService.currentUser!.displayName
+                          };
+                          print(data);
+                          gatheringService.joinGathering(data);
                         }
                       })),
               const SizedBox(

@@ -66,7 +66,7 @@ class GatheringPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const ViewGathering());
+                    Get.to(() => const ViewGathering());
                   },
                   child: Text(
                     "View",
@@ -105,7 +105,7 @@ class GatheringPage extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    Get.to(const ViewGathering());
+                    Get.to(() => const ViewGathering());
                   },
                   child: Text(
                     "View",

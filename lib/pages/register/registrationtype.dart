@@ -40,7 +40,8 @@ class RegistrationType extends StatelessWidget {
                     margin:
                         const EdgeInsets.only(bottom: 20, left: 20, right: 20),
                     child: ListTile(
-                      onTap: () => Get.to(() => RegisterPage()),
+                      onTap: () =>
+                          Get.to(() => RegisterPage(), arguments: e.title),
                       tileColor: Colors.red,
                       title: Text(
                         e.title.toString() + " Groups",

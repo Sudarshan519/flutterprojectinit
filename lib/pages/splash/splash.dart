@@ -1,14 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/onboarding/onboard.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/services/authService.dart';
 
 class SplashPage extends StatelessWidget {
   const SplashPage({Key? key}) : super(key: key);
   navigate() {
+    var authService = AuthService();
+
     Timer((const Duration(seconds: 2)), () {
-      Get.off(() => const OnBoardingPage());
+      if (authService.authInstance.currentUser != null) {
+        Get.offAll(const HomePage());
+      } else {
+        Get.off(() => const OnBoardingPage());
+      }
     });
   }
 

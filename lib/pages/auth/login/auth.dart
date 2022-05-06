@@ -145,6 +145,7 @@ class LoginPage extends StatelessWidget {
 
 class SignupPage extends StatelessWidget {
   final formKey = GlobalKey<FormState>();
+  final username = TextEditingController();
   final email = TextEditingController();
   final password = TextEditingController();
   final cpassword = TextEditingController();
@@ -174,13 +175,13 @@ class SignupPage extends StatelessWidget {
                 const SizedBox(
                   height: 46,
                 ),
-                // CustomInputField(
-                //     validator: validateIsEmpty,
-                //     controller: email,
-                //     label: "Enter your name"),
-                // const SizedBox(
-                //   height: 30,
-                // ),
+                CustomInputField(
+                    validator: validateIsEmpty,
+                    controller: username,
+                    label: "Enter your name"),
+                const SizedBox(
+                  height: 30,
+                ),
                 CustomInputField(
                   label: "Enter your email",
                   validator: validateEmail,
@@ -190,6 +191,7 @@ class SignupPage extends StatelessWidget {
                   height: 30,
                 ),
                 CustomInputField(
+                  obscureText: true,
                   label: "Enter password",
                   validator: validatePassword,
                   controller: password,
@@ -198,6 +200,7 @@ class SignupPage extends StatelessWidget {
                   height: 30,
                 ),
                 CustomInputField(
+                  obscureText: true,
                   label: "Confirm password",
                   controller: cpassword,
                   validator: (String? v) {
@@ -226,8 +229,8 @@ class SignupPage extends StatelessWidget {
                         onPressed: () {
                           if (formKey.currentState!.validate()) {
                             {
-                              authController.signup(
-                                  email.text, password.text, context);
+                              authController.signup(email.text, password.text,
+                                  username.text, context);
                             }
                             // email.clear();
                             // password.clear();

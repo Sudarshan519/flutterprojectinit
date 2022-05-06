@@ -130,17 +130,17 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
-      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
-      height: 50,
-      decoration: BoxDecoration(
-        // borderRadius: BorderRadius.circular(4),
-        color: label == "Waiting" ? Colors.grey : Colors.red,
-      ),
-      child: InkWell(
-        onTap: onPressed,
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
+        height: 50,
+        decoration: BoxDecoration(
+          // borderRadius: BorderRadius.circular(4),
+          color: label == "Waiting" ? Colors.grey : Colors.red,
+        ),
         child: Text(label,
             style: const TextStyle(
                 color: Colors.white,
