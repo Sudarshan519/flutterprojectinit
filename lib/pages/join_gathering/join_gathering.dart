@@ -127,13 +127,15 @@ class CustomInputField extends StatelessWidget {
   final bool obscureText;
   final validator;
   final bool isEnable;
+  final Colors? colors;
   const CustomInputField(
       {Key? key,
       required this.label,
       required this.controller,
       this.obscureText = false,
       this.validator,
-      this.isEnable = true})
+      this.isEnable = true,
+      this.colors})
       : super(key: key);
 
   @override
@@ -146,30 +148,38 @@ class CustomInputField extends StatelessWidget {
       decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.never,
           label: Text(label),
+          // labelStyle:
+          //     const TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
           contentPadding: const EdgeInsets.only(left: 20),
-          fillColor: Colors.white,
+          fillColor: const Color.fromRGBO(255, 99, 102, 1),
           // errorStyle: const TextStyle(color: Colors.white),
           // prefix: Container(
           //   width: 10,
           // ),
 
           focusedErrorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           errorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           disabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           border: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.white),
+              borderSide: BorderSide.none,
+              // borderSide: const BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(30)),
           filled: true),
     );

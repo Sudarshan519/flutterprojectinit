@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 
 class TrackerPage extends StatelessWidget {
-  const TrackerPage({Key? key}) : super(key: key);
-
+  TrackerPage({Key? key}) : super(key: key);
+  final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -27,7 +28,7 @@ class TrackerPage extends StatelessWidget {
           ),
           Expanded(
             child: Text(
-              "Welcome Judy",
+              "Welcome ${homeController.authService.currentUser!.displayName}",
               style: Theme.of(context).textTheme.headline5,
             ),
           )

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projectinit/pages/auth/login/auth.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({Key? key}) : super(key: key);
@@ -9,6 +9,7 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 28),
@@ -16,54 +17,63 @@ class OnBoardingPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // const SizedBox(
+              //   height: 40,
+              // ),
+              // const Icon(
+              //   FontAwesomeIcons.heartPulse,
+              //   size: 150,
+              //   color: Colors.red,
+              // ),
+              // Text(
+              //   "Heart Support ".toUpperCase(),
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .headline6!
+              //       .copyWith(color: Colors.blue),
+              // ),
+              // Text(
+              //   "Australia",
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .headline6!
+              //       .copyWith(color: Colors.red[800]),
+              // ),
               const SizedBox(
-                height: 40,
+                height: 250,
               ),
-              const Icon(
-                FontAwesomeIcons.heartPulse,
-                size: 150,
-                color: Colors.red,
+              InkWell(
+                onTap: () async {
+                  final Uri launchUri = Uri(
+                    scheme: 'tel',
+                    path: '000',
+                  );
+                  await launchUrl(launchUri);
+                },
+                child: Container(
+                    alignment: Alignment.center,
+                    color: Colors.red,
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.phone,
+                          size: 26,
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Call OOO',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline6!
+                              .copyWith(color: Colors.white),
+                        ),
+                      ],
+                    )),
               ),
-              Text(
-                "Heart Support ".toUpperCase(),
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: Colors.blue),
-              ),
-              Text(
-                "Australia",
-                style: Theme.of(context)
-                    .textTheme
-                    .headline6!
-                    .copyWith(color: Colors.red[800]),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                  alignment: Alignment.center,
-                  color: Colors.red,
-                  padding: const EdgeInsets.symmetric(horizontal: 18),
-                  height: 60,
-                  child: Row(
-                    children: [
-                      const Icon(
-                        Icons.phone,
-                        size: 26,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Text(
-                        'Call OOO',
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6!
-                            .copyWith(color: Colors.white),
-                      ),
-                    ],
-                  )),
               const SizedBox(
                 height: 20,
               ),
@@ -95,7 +105,7 @@ class OnBoardingPage extends StatelessWidget {
                 height: 30,
               ),
               Image.asset(
-                "assets/splash.png",
+                "assets/signup.png",
                 height: 200,
                 width: double.infinity,
               ),

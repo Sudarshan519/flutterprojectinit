@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/widgets/reusable.dart';
 
 class GatheringSuccess extends StatelessWidget {
@@ -58,7 +59,7 @@ class GatheringSuccess extends StatelessWidget {
                 height: 30,
               ),
               GestureDetector(
-                onTap: () => Get.back(),
+                onTap: () => Get.to(() => const HomePage()),
                 child: Container(
                     color: Colors.red[600],
                     alignment: Alignment.center,

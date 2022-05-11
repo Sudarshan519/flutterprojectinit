@@ -1,21 +1,26 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/controllers/homeController.dart';
-import 'package:projectinit/pages/auth/login/auth.dart';
 import 'package:projectinit/pages/contact/contact.dart';
+import 'package:projectinit/pages/detailPage/DetailPage.dart';
 import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
 import 'package:projectinit/pages/home/allgatherings.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
+import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 var tabs = [
-  "About \nHeart",
-  "Balanced \nDiet",
-  "Good \nSleep",
-  "Regular \nExercise",
-  "Donate\n Here",
-  "Learn\n More"
+  ["About HSA", 'assets/heart.jpeg'],
+  ["Healthy \n Eating", 'assets/diet.jpeg'],
+  ["Sleep Well", 'assets/sleep.jpeg'],
+  ["Regular \nExercise", 'assets/exercise.jpeg'],
+  ["Easy to\n Donate", 'assets/dontae.jpeg'],
+  ["Healthy Heart\n Challanges", 'assets/more.jpeg'],
+  ["Quit Vices", 'assets/more.jpeg'],
+  ["Stress Less\n Smile More", 'assets/more.jpeg']
 ];
 
 class HomePage extends StatefulWidget {
@@ -31,12 +36,12 @@ class _HomePageState extends State<HomePage> {
   int activeIndex = 1;
   var homeTabs = [
     HomeWidget(),
-    const SafeArea(child: TrackerPage()),
-    HomeEditWidget()
+    HomeEditWidget(),
+    SafeArea(child: TrackerPage()),
   ];
   var navItems = [
     const BottomNavigationBarItem(label: "", icon: Icon(Icons.menu)),
-    const BottomNavigationBarItem(label: "", icon: Icon(Icons.house)),
+    // const BottomNavigationBarItem(label: "", icon: Icon(Icons.house)),
     const BottomNavigationBarItem(
         label: "",
         icon: Icon(
@@ -86,8 +91,10 @@ class _HomePageState extends State<HomePage> {
                   Expanded(
                     child: OutlinedButton(
                         onPressed: () {
-                          Get.back();
-                          Get.offAll(() => LoginPage());
+                          exit(0);
+                          // SystemNavigator.pop();
+                          // Get.back();
+                          // Get.offAll(() => LoginPage());
                         },
                         child: Text(
                           "Yes",
@@ -116,6 +123,7 @@ class _HomePageState extends State<HomePage> {
       child: Scaffold(
         key: scaffoldKey,
         bottomNavigationBar: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
             onTap: (i) {
               if (i == 0) {
                 scaffoldKey.currentState!.openDrawer();
@@ -159,13 +167,16 @@ class HomeEditWidget extends StatelessWidget {
                 const SizedBox(
                   height: 30,
                 ),
-                Text(
-                  "Welcome \n${homeController.authService.currentUser!.displayName.toString()}",
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(fontSize: 30),
+                ListTile(
+                  tileColor: Colors.red,
+                  title: Text(
+                    "Welcome ${homeController.authService.currentUser!.displayName!.split(" ").first.toString()}",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4!
+                        .copyWith(fontSize: 30, color: Colors.white),
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -206,7 +217,7 @@ class HomeEditWidget extends StatelessWidget {
                   List.generate(
             tabs.length,
             (index) => Container(
-              padding: const EdgeInsets.all(18),
+              padding: const EdgeInsets.all(12),
               // alignment: Alignment.center,
               // decoration: BoxDecoration(
               //   borderRadius: BorderRadius.circular(18),
@@ -222,68 +233,84 @@ class HomeEditWidget extends StatelessWidget {
                 onTap: () {
                   Get.to(() => const GatheringPage());
                 },
-                child: Column(children: [
-                  Stack(
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 120,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(18),
-                          color: Colors.black.withOpacity(.5),
-                          image: const DecorationImage(
-                              image: AssetImage("assets/food.jpg"),
-                              fit: BoxFit.fill),
-                        ),
-                        // child: ClipRRect(
-                        //   borderRadius: BorderRadius.circular(16),
-                        //   child: Image.network(
-                        //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                        //     fit: BoxFit.fill,
-                        //     height: 120,
-                        //     width: double.infinity,
-                        //   ),
-                        // ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.black.withOpacity(.5),
+                              image: DecorationImage(
+                                  image: AssetImage(tabs[index][1]),
+                                  fit: BoxFit.fill),
+                            ),
+                            // child: ClipRRect(
+                            //   borderRadius: BorderRadius.circular(16),
+                            //   child: Image.network(
+                            //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                            //     fit: BoxFit.fill,
+                            //     height: 120,
+                            //     width: double.infinity,
+                            //   ),
+                            // ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Icon(FontAwesomeIcons.penToSquare),
+                          const SizedBox(
+                            width: 20,
+                          ),
+                          // Container(
+                          //   height: 100,
+                          //   width: 120,
+                          //   alignment: Alignment.center,
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(18),
+                          //       color: Colors.black.withOpacity(.5)),
+                          //   child: Text(
+                          //     tabs[index][0],
+                          //     textAlign: TextAlign.center,
+                          //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          //         fontWeight: FontWeight.w400,
+                          //         color: Colors
+                          //             .white), // style: const TextStyle(color: Colors.white),
+                          //   ),
+                          // ),
+                        ],
                       ),
-                      Container(
-                        height: 120,
-                        width: 120,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(18),
-                            color: Colors.black.withOpacity(.5)),
-                        child: Text(
-                          tabs[index],
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w400,
-                              color: Colors
-                                  .white), // style: const TextStyle(color: Colors.white),
-                        ),
+                      const SizedBox(
+                        height: 8,
                       ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.edit),
-                      SizedBox(
-                        width: 20,
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: const [
+                      //     Icon(Icons.edit),
+                      //     SizedBox(
+                      //       width: 20,
+                      //     ),
+                      //     Icon(Icons.delete)
+                      //   ],
+                      // ),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      Text(
+                        tabs[index][0],
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(
+                                color: Colors.red,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
                       ),
-                      Icon(Icons.delete)
-                    ],
-                  )
-                  // const SizedBox(
-                  //   height: 10,
-                  // ),
-                  // Text(
-                  //   tabs[index],
-                  //   style: Theme.of(context).textTheme.bodyLarge,
-                  // ),
-                ]),
+                    ]),
               ),
             ),
           ))
@@ -315,13 +342,16 @@ class HomeWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    "Welcome \n${homeController.authService.currentUser!.displayName.toString()}",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(fontSize: 30),
+                  ListTile(
+                    tileColor: Colors.red,
+                    title: Text(
+                      "Welcome ${homeController.authService.currentUser!.displayName!.split(" ").first.toString()}",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(fontSize: 26, color: Colors.white),
+                    ),
                   ),
                   const SizedBox(
                     height: 30,
@@ -389,7 +419,7 @@ class DrawerPage extends StatelessWidget {
                     .textTheme
                     .bodyMedium!
                     .copyWith(color: Colors.white)),
-            onTap: () => Get.to(AllGatherings()),
+            onTap: () => Get.to(() => AllGatherings()),
           ),
           const SizedBox(
             height: 16,
@@ -428,17 +458,18 @@ class DrawerPage extends StatelessWidget {
             tileColor: Colors.red,
             // leading: const Icon(Icons.info_outline_rounded),
             title: Text(
-              "About Us",
+              "JoinPeerGathering",
               style: Theme.of(context)
                   .textTheme
                   .titleMedium!
                   .copyWith(color: Colors.white),
             ),
-            onTap: () => showAboutDialog(
-                context: context,
-                applicationName: "Heart Health Support",
-                applicationVersion: "0.1",
-                children: [const LoremText1()]),
+            onTap: () => Get.to(() => JoinPeerSupportGroup()),
+            //  showAboutDialog(
+            //     context: context,
+            //     applicationName: "Heart Health Support",
+            //     applicationVersion: "0.1",
+            //     children: [const LoremText1()]),
           ),
           const SizedBox(
             height: 16,
@@ -612,23 +643,23 @@ class WelcomePage extends StatelessWidget {
         //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
         //       fit: BoxFit.fill),
         // ),
-        height: 180,
+        height: 190,
         width: 180,
         child: //Column(children: [
             InkWell(
           onTap: () {
-            Get.to(() => const GatheringPage());
+            Get.to(() => const DetailPage());
           },
-          child: Stack(
+          child: Column(
             children: [
               Container(
-                // height: 120,
-                // width: 120,
+                height: 100,
+                width: 120,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(6),
                   color: Colors.black.withOpacity(.5),
-                  image: const DecorationImage(
-                      image: AssetImage("assets/food.jpg"), fit: BoxFit.fill),
+                  image: DecorationImage(
+                      image: AssetImage(tabs[index][1]), fit: BoxFit.fill),
                 ),
                 // child: ClipRRect(
                 //   borderRadius: BorderRadius.circular(16),
@@ -640,21 +671,17 @@ class WelcomePage extends StatelessWidget {
                 //   ),
                 // ),
               ),
-              Container(
-                // height: 120,
-                // width: 120,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: Colors.black.withOpacity(.5)),
-                child: Text(
-                  tabs[index],
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: Colors
-                          .white), // style: const TextStyle(color: Colors.white),
-                ),
+              const SizedBox(
+                height: 6,
+              ),
+              Text(
+                tabs[index][0],
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      // color: Colors
+                      //     .white
+                    ), // style: const TextStyle(color: Colors.white),
               ),
             ],
           ),

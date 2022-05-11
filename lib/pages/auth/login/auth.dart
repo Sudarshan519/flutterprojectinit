@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:projectinit/controllers/loginController.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:get/get.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:projectinit/utils/validators.dart';
 
 class LoginPage extends StatelessWidget {
@@ -17,7 +16,7 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar:
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 18),
@@ -26,32 +25,36 @@ class LoginPage extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(height: 30),
-                Text(
-                  "Welcome Back ",
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline4!
-                      .copyWith(color: Colors.black),
+                Image.asset(
+                  'assets/login.png',
+                  height: 250,
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const Icon(
-                  FontAwesomeIcons.heartPulse,
-                  size: 120,
-                  color: Colors.red,
-                ),
-                Text(
-                  "Heart Support",
-                  textAlign: TextAlign.end,
-                  style: Theme.of(context)
-                      .textTheme
-                      .headline3!
-                      .copyWith(color: Colors.red),
-                ),
-                const SizedBox(
-                  height: 18,
-                ),
+                // Text(
+                //   "Welcome Back ",
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .headline4!
+                //       .copyWith(color: Colors.black),
+                // ),
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                // const Icon(
+                //   FontAwesomeIcons.heartPulse,
+                //   size: 120,
+                //   color: Colors.red,
+                // ),
+                // Text(
+                //   "Heart Support",
+                //   textAlign: TextAlign.end,
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .headline3!
+                //       .copyWith(color: Colors.red),
+                // ),
+                // const SizedBox(
+                //   height: 18,
+                // ),
                 const SizedBox(
                   height: 46,
                 ),
@@ -71,16 +74,11 @@ class LoginPage extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "Forget Password",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: Colors.red,
-                          ),
-                    ),
-                  ],
+                Text(
+                  "Forget Password",
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: Colors.red,
+                      ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -102,7 +100,7 @@ class LoginPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                          "Login",
+                          "Sign Up",
                           style: Theme.of(context)
                               .textTheme
                               .headline6!
