@@ -39,20 +39,27 @@ class JoinPeerSupportGroup extends StatelessWidget {
             //         bottomRight: Radius.circular(
             //           200,
             //         ))),
-            height: 250,
+            height: 230,
             width: double.infinity,
-            child: Stack(children: [
-              Image.asset("assets/ellipse.png"),
+            child: Stack(alignment: Alignment.center, children: [
+              Image.asset(
+                "assets/ellipse.png",
+                width: double.infinity,
+              ),
               Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(horizontal: 50),
-                child: const Text(
-                  "Connect with members of our cardiac community to      share your experiences and benefit from the experiences of others",
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w700),
+                height: 230,
+                width: 350,
+                // alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                child: Center(
+                  child: const Text(
+                    "Connect with members of our cardiac community to      share your experiences and benefit from the experiences of others",
+                    textAlign: TextAlign.justify,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700),
+                  ),
                 ),
               ),
             ]),

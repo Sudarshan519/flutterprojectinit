@@ -11,7 +11,7 @@ class OnBoardingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 28),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -40,7 +40,7 @@ class OnBoardingPage extends StatelessWidget {
               //       .copyWith(color: Colors.red[800]),
               // ),
               const SizedBox(
-                height: 250,
+                height: 100,
               ),
               InkWell(
                 onTap: () async {

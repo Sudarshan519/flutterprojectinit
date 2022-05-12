@@ -9,6 +9,7 @@ import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
 import 'package:projectinit/pages/home/allgatherings.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
+import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   int activeIndex = 1;
   var homeTabs = [
     HomeWidget(),
-    HomeEditWidget(),
+    // HomeEditWidget(),
     SafeArea(child: TrackerPage()),
   ];
   var navItems = [
@@ -122,22 +123,25 @@ class _HomePageState extends State<HomePage> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            onTap: (i) {
-              if (i == 0) {
-                scaffoldKey.currentState!.openDrawer();
-              } else {
-                changeTab(i);
-              }
-            },
-            currentIndex: activeIndex,
-            backgroundColor: Theme.of(context).primaryColor,
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            unselectedItemColor: Colors.grey,
-            selectedItemColor: Colors.red,
-            items: navItems),
+        bottomNavigationBar: BottomNavigation(
+          isHome: true,
+        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //     type: BottomNavigationBarType.fixed,
+        //     onTap: (i) {
+        //       if (i == 0) {
+        //         scaffoldKey.currentState!.openDrawer();
+        //       } else {
+        //         changeTab(i);
+        //       }
+        //     },
+        //     currentIndex: activeIndex,
+        //     backgroundColor: Colors.red,
+        //     showSelectedLabels: false,
+        //     showUnselectedLabels: false,
+        //     unselectedItemColor: Colors.grey[200],
+        //     selectedItemColor: Colors.grey[400],
+        //     items: navItems),
         drawer: DrawerPage(),
         body: homeTabs[activeIndex - 1],
       ),
