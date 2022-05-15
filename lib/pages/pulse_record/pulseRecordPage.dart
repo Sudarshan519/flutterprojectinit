@@ -3,7 +3,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/findPeerSupportGroup/findPeerSupportGroup.dart';
 import 'package:projectinit/pages/home/homepage.dart';
-import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
 
 class PulseRecordPage extends StatelessWidget {
@@ -16,7 +15,7 @@ class PulseRecordPage extends StatelessWidget {
       appBar: AppBar(
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             color: Colors.red,
             onPressed: () => Get.back(),
           ),
@@ -25,7 +24,7 @@ class PulseRecordPage extends StatelessWidget {
               radius: 30,
               backgroundColor: Colors.grey.shade300,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
           ],
@@ -47,15 +46,15 @@ class PulseRecordPage extends StatelessWidget {
                         horizontal: 18.0, vertical: 10),
                     child: ListTile(
                       tileColor: Colors.red,
-                      title: Text("18/08- 77 pulse/min",
+                      title: const Text("18/08- 77 pulse/min",
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.white,
                               fontWeight: FontWeight.bold)),
-                      trailing: Container(
+                      trailing: SizedBox(
                         // color: Colors.white,
                         width: 60,
-                        child: Row(children: [
+                        child: Row(children: const [
                           Icon(FontAwesomeIcons.penToSquare),
                           SizedBox(width: 10),
                           Icon(Icons.delete)
@@ -63,7 +62,7 @@ class PulseRecordPage extends StatelessWidget {
                       ),
                     ),
                   )),
-          SizedBox(
+          const SizedBox(
             height: 68,
           ),
           Container(
@@ -71,7 +70,7 @@ class PulseRecordPage extends StatelessWidget {
             height: 50,
             alignment: Alignment.center,
             color: Colors.red,
-            child: Text(
+            child: const Text(
               "Add record",
               style: TextStyle(
                   color: Colors.white,
@@ -81,18 +80,19 @@ class PulseRecordPage extends StatelessWidget {
           )
         ],
       ),
-      bottomNavigationBar: BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(),
     );
   }
 }
 
 class BottomNavigation extends StatelessWidget {
   final bool isHome;
-  BottomNavigation({Key? key, this.isHome = false}) : super(key: key);
+  const BottomNavigation({Key? key, this.isHome = false}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 18),
       color: Colors.red,
       child: Row(
@@ -115,7 +115,7 @@ class BottomNavigation extends StatelessWidget {
           IconButton(
             onPressed: () {
               if (isHome) {
-                Get.to(FindPeerSupportGroup());
+                Get.to(const FindPeerSupportGroup());
               } else {
                 Get.back();
               }
