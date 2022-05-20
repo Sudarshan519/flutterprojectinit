@@ -75,7 +75,7 @@ class JoinPeerSupportGroup extends StatelessWidget {
             height: 50,
           ),
           InkWell(
-              onTap: () => Get.to(const RegistrationType()),
+              onTap: () => Get.to(() => AllGatherings()),
               child: Container(
                 width: 200,
                 alignment: Alignment.center,

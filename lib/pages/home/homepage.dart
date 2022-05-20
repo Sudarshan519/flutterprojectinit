@@ -9,6 +9,7 @@ import 'package:projectinit/pages/detailPage/DetailPage.dart';
 import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
 import 'package:projectinit/pages/home/allgatherings.dart';
 import 'package:projectinit/pages/home/donation_page.dart';
+import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
 import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
@@ -151,178 +152,224 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeEditWidget extends StatelessWidget {
+class HomeEditWidget extends StatefulWidget {
   HomeEditWidget({
     Key? key,
   }) : super(key: key);
-  final HomeController homeController = Get.find();
+
+  @override
+  State<HomeEditWidget> createState() => _HomeEditWidgetState();
+}
+
+class _HomeEditWidgetState extends State<HomeEditWidget> {
+  final name = TextEditingController();
+  // final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: SingleChildScrollView(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                ListTile(
-                  tileColor: Colors.red,
-                  title: Text(
-                    "Welcome ${homeController.authService.currentUser!.displayName!.split(" ").first.toString()}",
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline4!
-                        .copyWith(fontSize: 30, color: Colors.white),
+    return Scaffold(
+      drawer: DrawerPage(),
+      bottomNavigationBar: const BottomNavigation(),
+      body: SafeArea(
+          child: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    height: 30,
                   ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                // const Spacer(),
-                Container(
-                  height: 100,
-                  width: 100,
-                  decoration: const BoxDecoration(
-                      // shape: BoxShape.circle,
-                      // color: Colors.grey,
-                      ),
-                  child: Stack(alignment: Alignment.center, children: const [
-                    CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage("assets/profile.jpg")),
-                    Align(
-                        alignment: Alignment.bottomLeft,
-                        child: CircleAvatar(
-                          child: Icon(
-                            Icons.edit,
-                            color: Colors.red,
-                          ),
-                        ))
-                  ]),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          Wrap(
-              // itemCount: tabs.length,
-              // gridDelegate:
-              //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-              children: // (BuildContext context, int index) =>
-                  List.generate(
-            tabs.length,
-            (index) => Container(
-              padding: const EdgeInsets.all(12),
-              // alignment: Alignment.center,
-              // decoration: BoxDecoration(
-              //   borderRadius: BorderRadius.circular(18),
-              //   color: Colors.black.withOpacity(.5),
-              //   image: const DecorationImage(
-              //       image: NetworkImage(
-              //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-              //       fit: BoxFit.fill),
-              // ),
-              height: 200,
-              width: 180,
-              child: InkWell(
-                onTap: () {
-                  Get.to(() => const GatheringPage());
-                },
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.black.withOpacity(.5),
-                              image: DecorationImage(
-                                  image: AssetImage(tabs[index][1]),
-                                  fit: BoxFit.fill),
+                  ListTile(
+                    tileColor: Colors.red,
+                    title: Text(
+                      "Welcome ",
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headline4!
+                          .copyWith(fontSize: 30, color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  // const Spacer(),
+                  Container(
+                    height: 100,
+                    width: 100,
+                    decoration: const BoxDecoration(
+                        // shape: BoxShape.circle,
+                        // color: Colors.grey,
+                        ),
+                    child: Stack(alignment: Alignment.center, children: const [
+                      CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage("assets/profile.jpg")),
+                      Align(
+                          alignment: Alignment.bottomLeft,
+                          child: CircleAvatar(
+                            child: Icon(
+                              Icons.edit,
+                              color: Colors.red,
                             ),
-                            // child: ClipRRect(
-                            //   borderRadius: BorderRadius.circular(16),
-                            //   child: Image.network(
-                            //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                            //     fit: BoxFit.fill,
-                            //     height: 120,
-                            //     width: double.infinity,
-                            //   ),
-                            // ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Icon(FontAwesomeIcons.penToSquare),
-                          const SizedBox(
-                            width: 20,
-                          ),
-                          // Container(
-                          //   height: 100,
-                          //   width: 120,
-                          //   alignment: Alignment.center,
-                          //   decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(18),
-                          //       color: Colors.black.withOpacity(.5)),
-                          //   child: Text(
-                          //     tabs[index][0],
-                          //     textAlign: TextAlign.center,
-                          //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          //         fontWeight: FontWeight.w400,
-                          //         color: Colors
-                          //             .white), // style: const TextStyle(color: Colors.white),
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.center,
-                      //   children: const [
-                      //     Icon(Icons.edit),
-                      //     SizedBox(
-                      //       width: 20,
-                      //     ),
-                      //     Icon(Icons.delete)
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      Text(
-                        tabs[index][0],
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: Colors.red,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                      ),
+                          ))
                     ]),
+                  ),
+                ],
               ),
             ),
-          ))
-        ],
-      ),
-    ));
+            const SizedBox(
+              height: 30,
+            ),
+            Wrap(
+                // itemCount: tabs.length,
+                // gridDelegate:
+                //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                children: // (BuildContext context, int index) =>
+                    List.generate(
+              tabs.length,
+              (index) => Container(
+                padding: const EdgeInsets.all(12),
+                // alignment: Alignment.center,
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(18),
+                //   color: Colors.black.withOpacity(.5),
+                //   image: const DecorationImage(
+                //       image: NetworkImage(
+                //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                //       fit: BoxFit.fill),
+                // ),
+                height: 200,
+                width: 180,
+                child: InkWell(
+                  onTap: () {
+                    showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Health Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText1()]);
+
+                    // Get.to(() => const GatheringPage());
+                  },
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.black.withOpacity(.5),
+                                image: DecorationImage(
+                                    image: AssetImage(tabs[index][1]),
+                                    fit: BoxFit.fill),
+                              ),
+                              // child: ClipRRect(
+                              //   borderRadius: BorderRadius.circular(16),
+                              //   child: Image.network(
+                              //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                              //     fit: BoxFit.fill,
+                              //     height: 120,
+                              //     width: double.infinity,
+                              //   ),
+                              // ),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Column(
+                              children: [
+                                InkWell(
+                                    onTap: () {
+                                      name.text = tabs[index][0];
+                                      Get.bottomSheet(Container(
+                                        color: Colors.white,
+                                        child: Column(children: [
+                                          TextField(controller: name),
+                                          CustomButton(
+                                              label: 'Submit',
+                                              onPressed: () {
+                                                tabs[index][0] = name.text;
+                                                setState(() {});
+                                                Get.back();
+                                              })
+                                        ]),
+                                      ));
+                                    },
+                                    child: Icon(FontAwesomeIcons.penToSquare)),
+                                SizedBox(height: 20),
+                                InkWell(
+                                    onTap: () {
+                                      tabs.removeAt(index);
+                                      setState(() {});
+                                    },
+                                    child: Icon(Icons.delete))
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 20,
+                            ),
+
+                            // Container(
+                            //   height: 100,
+                            //   width: 120,
+                            //   alignment: Alignment.center,
+                            //   decoration: BoxDecoration(
+                            //       borderRadius: BorderRadius.circular(18),
+                            //       color: Colors.black.withOpacity(.5)),
+                            //   child: Text(
+                            //     tabs[index][0],
+                            //     textAlign: TextAlign.center,
+                            //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            //         fontWeight: FontWeight.w400,
+                            //         color: Colors
+                            //             .white), // style: const TextStyle(color: Colors.white),
+                            //   ),
+                            // ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: const [
+                        //     Icon(Icons.edit),
+                        //     SizedBox(
+                        //       width: 20,
+                        //     ),
+                        //     Icon(Icons.delete)
+                        //   ],
+                        // ),
+                        // const SizedBox(
+                        //   height: 10,
+                        // ),
+                        Text(
+                          tabs[index][0],
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: Colors.red,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                        ),
+                      ]),
+                ),
+              ),
+            ))
+          ],
+        ),
+      )),
+    );
   }
 }
 
@@ -388,7 +435,9 @@ class DrawerPage extends StatelessWidget {
   DrawerPage({
     Key? key,
   }) : super(key: key);
-  final HomeController homeController = Get.find();
+  final HomeController homeController = Get.isRegistered<HomeController>()
+      ? Get.find()
+      : Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     return Drawer(

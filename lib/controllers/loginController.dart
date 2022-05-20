@@ -9,7 +9,10 @@ showSnackBar(context, String message) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
 }
 
+enum AUTHTYPE { ADMIN, USER }
+
 class AuthController extends GetxController {
+  var authType = AUTHTYPE.ADMIN.obs;
   final authService = AuthService();
   var loginService = AuthService();
   login(String email, String password, context) async {

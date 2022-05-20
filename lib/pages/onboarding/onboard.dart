@@ -65,7 +65,7 @@ class OnBoardingPage extends StatelessWidget {
                           width: 10,
                         ),
                         Text(
-                          'Call OOO',
+                          'Call 000',
                           style: Theme.of(context)
                               .textTheme
                               .headline6!

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:projectinit/controllers/loginController.dart';
+import 'package:projectinit/pages/home/homepage.dart';
+import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/utils/validators.dart';
@@ -132,6 +134,37 @@ class LoginPage extends StatelessWidget {
                       ),
                     ]),
                     textAlign: TextAlign.center,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(() => AdminLogin());
+                  },
+                  child: Container(
+                    height: 60,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(color: Colors.grey.shade200),
+                    child: Text.rich(
+                      TextSpan(children: [
+                        TextSpan(
+                            text: "Admin Login ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .copyWith(color: Colors.blueGrey)),
+                        // TextSpan(
+                        //   text: " Register ",
+                        //   style: Theme.of(context)
+                        //       .textTheme
+                        //       .headline6!
+                        //       .copyWith(color: Colors.red),
+                        // ),
+                      ]),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -357,6 +390,50 @@ class ForgetPassword extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class AdminLogin extends StatelessWidget {
+  AdminLogin({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final key = GlobalKey<FormState>();
+    return Scaffold(
+      body: SafeArea(
+          child: SingleChildScrollView(
+        padding: const EdgeInsets.all(18),
+        child: Column(children: [
+          Form(
+            key: key,
+            child: TextFormField(
+                validator: (v) {
+                  if (v == 'admin@gmail.com')
+                    return null;
+                  else if (v!.isEmpty) {
+                    return "* Required";
+                  }
+                  return 'Not a valid admin user';
+                },
+                decoration: InputDecoration(
+                    labelStyle: Theme.of(context).textTheme.headline6,
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    isCollapsed: false,
+                    labelText: "Email")),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+              label: 'Submit',
+              onPressed: () {
+                if (key.currentState!.validate()) {
+                  Get.to(() =>HomeEditWidget());
+                }
+              })
+        ]),
+      )),
     );
   }
 }

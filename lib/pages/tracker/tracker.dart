@@ -40,7 +40,7 @@ class TrackerPage extends StatelessWidget {
                     child: ListTile(
                   tileColor: Colors.red,
                   title: Text(
-                    "Welcome ${homeController.authService.currentUser!.displayName}",
+                    "Welcome ${homeController.authService.currentUser == null ? "" : homeController.authService.currentUser!.displayName ?? ""}",
                     style: Theme.of(context)
                         .textTheme
                         .headline5!
@@ -68,7 +68,8 @@ class TrackerPage extends StatelessWidget {
               child: ListTile(
                   tileColor: Colors.red,
                   onTap: () {
-                    Get.to(() => PulseRecordPage());
+                    Get.to(() => const RecordDetailPage(),
+                        arguments: ['Pulse']);
                   },
                   // leading: const Icon(
                   //   FontAwesomeIcons.heartPulse,
@@ -86,7 +87,9 @@ class TrackerPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 18, right: 18, top: 18),
               child: ListTile(
                 tileColor: Colors.red,
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const RecordDetailPage(), arguments: ['Rythm']);
+                },
                 // leading: const Icon(
                 //   FontAwesomeIcons.heartCircleCheck,
                 //   color: Colors.red,
@@ -104,7 +107,10 @@ class TrackerPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 18, right: 18, top: 18),
               child: ListTile(
                 tileColor: Colors.red,
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const RecordDetailPage(),
+                      arguments: ['Pressure']);
+                },
                 // leading: const Icon(
                 //   FontAwesomeIcons.heartCircleCheck,
                 //   color: Colors.red,
@@ -122,7 +128,10 @@ class TrackerPage extends StatelessWidget {
               padding: const EdgeInsets.only(left: 18, right: 18, top: 18),
               child: ListTile(
                 tileColor: Colors.red,
-                onTap: () {},
+                onTap: () {
+                  Get.to(() => const RecordDetailPage(),
+                      arguments: ['Medication']);
+                },
                 // leading: const Icon(
                 //   FontAwesomeIcons.houseMedicalCircleExclamation,
                 //   color: Colors.red,
