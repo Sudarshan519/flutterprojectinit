@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget {
                           }
                         },
                         child: Text(
-                          "Sign Up",
+                          "Sign In",
                           style: Theme.of(context)
                               .textTheme
                               .headline6!

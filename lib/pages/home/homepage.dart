@@ -8,6 +8,7 @@ import 'package:projectinit/pages/contact/contact.dart';
 import 'package:projectinit/pages/detailPage/DetailPage.dart';
 import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
 import 'package:projectinit/pages/home/allgatherings.dart';
+import 'package:projectinit/pages/home/donation_page.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
 import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
 import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
@@ -397,7 +398,7 @@ class DrawerPage extends StatelessWidget {
         reverse: true,
         children: [
           const SizedBox(
-            height: 70,
+            height: 200,
           ),
           // const UserAccountsDrawerHeader(
           //     currentAccountPicture: Padding(
@@ -413,69 +414,69 @@ class DrawerPage extends StatelessWidget {
             title: const Icon(Icons.arrow_back, color: Colors.white),
             onTap: () => Get.back(),
           ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.info_outline_rounded),
-            title: Text("All Gatherings",
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Colors.white)),
-            onTap: () => Get.to(() => AllGatherings()),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.info_outline_rounded),
-            title: Text(
-              "View Gathering",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
-            ),
-            onTap: () => Get.to(() => const GatheringPage()),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.info_outline_rounded),
-            title: Text(
-              "Join Gathering",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
-            ),
-            onTap: () => Get.to(() => JoinGathering()),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.info_outline_rounded),
-            title: Text(
-              "JoinPeerGathering",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
-            ),
-            onTap: () => Get.to(() => JoinPeerSupportGroup()),
-            //  showAboutDialog(
-            //     context: context,
-            //     applicationName: "Heart Health Support",
-            //     applicationVersion: "0.1",
-            //     children: [const LoremText1()]),
-          ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
+          // ListTile(
+          //   tileColor: Colors.red,
+          //   // leading: const Icon(Icons.info_outline_rounded),
+          //   title: Text("All Gatherings",
+          //       style: Theme.of(context)
+          //           .textTheme
+          //           .bodyMedium!
+          //           .copyWith(color: Colors.white)),
+          //   onTap: () => Get.to(() => AllGatherings()),
+          // ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
+          // ListTile(
+          //   tileColor: Colors.red,
+          //   // leading: const Icon(Icons.info_outline_rounded),
+          //   title: Text(
+          //     "View Gathering",
+          //     style: Theme.of(context)
+          //         .textTheme
+          //         .titleMedium!
+          //         .copyWith(color: Colors.white),
+          //   ),
+          //   onTap: () => Get.to(() => const GatheringPage()),
+          // ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
+          // ListTile(
+          //   tileColor: Colors.red,
+          //   // leading: const Icon(Icons.info_outline_rounded),
+          //   title: Text(
+          //     "Join Gathering",
+          //     style: Theme.of(context)
+          //         .textTheme
+          //         .titleMedium!
+          //         .copyWith(color: Colors.white),
+          //   ),
+          //   onTap: () => Get.to(() => JoinGathering()),
+          // ),
+          // const SizedBox(
+          //   height: 16,
+          // ),
+          // ListTile(
+          //   tileColor: Colors.red,
+          //   // leading: const Icon(Icons.info_outline_rounded),
+          //   title: Text(
+          //     "JoinPeerGathering",
+          //     style: Theme.of(context)
+          //         .textTheme
+          //         .titleMedium!
+          //         .copyWith(color: Colors.white),
+          //   ),
+          //   onTap: () => Get.to(() => JoinPeerSupportGroup()),
+          //   //  showAboutDialog(
+          //   //     context: context,
+          //   //     applicationName: "Heart Health Support",
+          //   //     applicationVersion: "0.1",
+          //   //     children: [const LoremText1()]),
+          // ),
           const SizedBox(
             height: 16,
           ),
@@ -630,79 +631,312 @@ class WelcomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-        // itemCount: tabs.length,
-        // gridDelegate:
-        //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-        children: // (BuildContext context, int index) =>
-            List.generate(
-      tabs.length,
-      (index) => Container(
-        padding: const EdgeInsets.all(18),
-        // alignment: Alignment.center,
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(18),
-        //   color: Colors.black.withOpacity(.5),
-        //   image: const DecorationImage(
-        //       image: NetworkImage(
-        //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-        //       fit: BoxFit.fill),
-        // ),
-        height: 190,
-        width: 180,
-        child: //Column(children: [
-            InkWell(
-          onTap: () => showAboutDialog(
-              context: context,
-              applicationName: "Heart Support",
-              applicationVersion: "0.1",
-              children: [const LoremText()]),
-
-          child: Column(
-            children: [
-              Container(
-                height: 100,
-                width: 120,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(6),
-                  color: Colors.black.withOpacity(.5),
-                  image: DecorationImage(
-                      image: AssetImage(tabs[index][1]), fit: BoxFit.fill),
+    return Center(
+      child: Column(
+        children: [
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/heart.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "About HSA",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                // child: ClipRRect(
-                //   borderRadius: BorderRadius.circular(16),
-                //   child: Image.network(
-                //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                //     fit: BoxFit.fill,
-                //     height: 120,
-                //     width: double.infinity,
-                //   ),
-                // ),
-              ),
-              const SizedBox(
-                height: 6,
-              ),
-              Text(
-                tabs[index][0],
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      // color: Colors
-                      //     .white
-                    ), // style: const TextStyle(color: Colors.white),
-              ),
-            ],
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/diet.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                              "Healthy\nEating",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          // Text(
-          //   tabs[index],
-          //   style: Theme.of(context).textTheme.bodyLarge,
-          // ),
-          // ]),
-        ),
+          // SizedBox(height: 20),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/sleep.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Sleep Well",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/exercise.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                              "Regular\nExercise",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: InkWell(
+                    onTap: () => Get.to(DonationPage()),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/dontae.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Easy to\nDonate",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/more.jpeg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                              "Healthy Heart\nChalanges",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/vices.jpg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              "Quite Vices",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: InkWell(
+                    onTap: () => showAboutDialog(
+                        context: context,
+                        applicationName: "Heart Support",
+                        applicationVersion: "0.1",
+                        children: [const LoremText()]),
+                    child: Container(
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(6),
+                            child: Image(
+                              height: 100,
+                              width: 150,
+                              image: AssetImage(
+                                "assets/smile.jpg",
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                              "Stress Less\nSmile More",
+                              style: TextStyle(
+                                  fontSize: 23, fontWeight: FontWeight.w500),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
-    ));
+    );
   }
 }
