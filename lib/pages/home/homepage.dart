@@ -168,7 +168,7 @@ class _HomeEditWidgetState extends State<HomeEditWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerPage(),
-      bottomNavigationBar: const BottomNavigation(),
+      bottomNavigationBar: const BottomNavigation(isHome: true),
       body: SafeArea(
           child: SingleChildScrollView(
         child: Column(
@@ -291,17 +291,21 @@ class _HomeEditWidgetState extends State<HomeEditWidget> {
                                     onTap: () {
                                       name.text = tabs[index][0];
                                       Get.bottomSheet(Container(
+                                        padding: const EdgeInsets.all(18),
                                         color: Colors.white,
-                                        child: Column(children: [
-                                          TextField(controller: name),
-                                          CustomButton(
-                                              label: 'Submit',
-                                              onPressed: () {
-                                                tabs[index][0] = name.text;
-                                                setState(() {});
-                                                Get.back();
-                                              })
-                                        ]),
+                                        child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              TextField(controller: name),
+                                              SizedBox(height: 20),
+                                              CustomButton(
+                                                  label: 'Submit',
+                                                  onPressed: () {
+                                                    tabs[index][0] = name.text;
+                                                    setState(() {});
+                                                    Get.back();
+                                                  })
+                                            ]),
                                       ));
                                     },
                                     child: Icon(FontAwesomeIcons.penToSquare)),

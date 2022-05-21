@@ -71,9 +71,11 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
                                   textController.text =
                                       records[index].split(" ").first;
                                   value.text = records[index].split(" - ")[1];
-                                  await Get.bottomSheet(Container(
+                                  await Get.bottomSheet(Container( padding:const EdgeInsets.all(18),
                                       color: Colors.white,
-                                      child: Column(children: [
+                                      child: Column(
+                                        mainAxisSize:MainAxisSize.min,
+                                        children: [
                                         TextFormField(
                                           controller: textController,
                                           decoration: InputDecoration(
@@ -107,7 +109,7 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
                                             onPressed: () {
                                               Get.back();
                                             })
-                                      ], mainAxisSize: MainAxisSize.min)));
+                                      ], )));
                                   records[index] =
                                       textController.text + " - " + value.text;
                                   setState(() {});
@@ -130,6 +132,7 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
             InkWell(
               onTap: () async {
                 await Get.bottomSheet(Container(
+                  padding:const EdgeInsets.all(18),
                     color: Colors.white,
                     child: Column(children: [
                       TextFormField(

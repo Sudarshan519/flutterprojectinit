@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/pages/auth/login/auth.dart';
 
 import 'package:projectinit/services/authService.dart';
 
@@ -15,6 +16,35 @@ class AuthController extends GetxController {
   var authType = AUTHTYPE.ADMIN.obs;
   final authService = AuthService();
   var loginService = AuthService();
+  resetPassword(String email) async {
+    var resp = await await authService.resetPassword(email);
+    if (resp == null) {
+      Get.dialog(
+          AlertDialog(
+            title: Text(''),
+            content:
+                Text("A link to reset password is provided to your email."),
+            actions: [
+              TextButton(
+                  onPressed: (() => Get.to(() => LoginPage())),
+                  child: Text("Back to Login")),
+            ],
+          ),
+          barrierDismissible: false);
+    } else {
+      Get.snackbar('', resp);
+    }
+  }
+
+  confirmReset(String newPassword, String code) async {
+    var resp = await authService.confirmPasswordReset(code, newPassword);
+    if (resp == null) {
+      Get.snackbar('', 'Success');
+    } else {
+      Get.snackbar('', resp);
+    }
+  }
+
   login(String email, String password, context) async {
     Get.dialog(AlertDialog(
       content: Column(

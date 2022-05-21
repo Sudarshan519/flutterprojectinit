@@ -54,8 +54,27 @@ class AuthService {
     }
   }
 
+  resetPassword(String email) async {
+    try {
+      await authInstance.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      return e.message;
+    }
+  }
+
+  confirmPasswordReset(String code, String newPassword) async {
+    try {
+      await authInstance.confirmPasswordReset(
+          code: code, newPassword: newPassword);
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
+  }
+
+  verifyUser() {}
   getUser() {
-    final user = FirebaseAuth.instance.currentUser;
+    return FirebaseAuth.instance.currentUser;
   }
 
   updateUser(User user) async {

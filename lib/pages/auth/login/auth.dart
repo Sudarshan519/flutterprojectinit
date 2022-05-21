@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projectinit/controllers/loginController.dart';
+import 'package:projectinit/pages/forgetpass/forget_password.dart';
 import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
@@ -78,7 +79,7 @@ class LoginPage extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: (() {
-                    Get.to(ForgetPassword());
+                    Get.to(ForgotPassword());
                   }),
                   child: Text(
                     "Forget Password",
@@ -401,39 +402,62 @@ class AdminLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     final key = GlobalKey<FormState>();
     return Scaffold(
-      body: SafeArea(
-          child: SingleChildScrollView(
-        padding: const EdgeInsets.all(18),
-        child: Column(children: [
-          Form(
+        body: SafeArea(
+      child: SingleChildScrollView(
+          padding: const EdgeInsets.all(18),
+          child: Form(
             key: key,
-            child: TextFormField(
-                validator: (v) {
-                  if (v == 'admin@gmail.com')
-                    return null;
-                  else if (v!.isEmpty) {
-                    return "* Required";
-                  }
-                  return 'Not a valid admin user';
-                },
-                decoration: InputDecoration(
-                    labelStyle: Theme.of(context).textTheme.headline6,
-                    floatingLabelBehavior: FloatingLabelBehavior.auto,
-                    isCollapsed: false,
-                    labelText: "Email")),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          CustomButton(
-              label: 'Submit',
-              onPressed: () {
-                if (key.currentState!.validate()) {
-                  Get.to(() =>HomeEditWidget());
-                }
-              })
-        ]),
-      )),
-    );
+            child: Column(children: [
+              Text(
+                "Admin Login",
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                  validator: (v) {
+                    if (v == 'admin@gmail.com')
+                      return null;
+                    else if (v!.isEmpty) {
+                      return "* Required";
+                    }
+                    return 'Not a valid admin user';
+                  },
+                  decoration: InputDecoration(
+                      labelStyle: Theme.of(context).textTheme.headline6,
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      isCollapsed: false,
+                      labelText: "Email")),
+              SizedBox(
+                height: 20,
+              ),
+              TextFormField(
+                  validator: (v) {
+                    if (v == 'admin123')
+                      return null;
+                    else if (v!.isEmpty) {
+                      return "* Required";
+                    }
+                    return 'Not a valid password';
+                  },
+                  decoration: InputDecoration(
+                      labelStyle: Theme.of(context).textTheme.headline6,
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      isCollapsed: false,
+                      labelText: "Password")),
+              SizedBox(
+                height: 20,
+              ),
+              CustomButton(
+                  label: 'Submit',
+                  onPressed: () {
+                    if (key.currentState!.validate()) {
+                      Get.offAll(() => HomeEditWidget());
+                    }
+                  })
+            ]),
+          )),
+    ));
   }
 }
