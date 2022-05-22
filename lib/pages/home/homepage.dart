@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use
 
 import 'dart:io';
 
@@ -17,6 +17,7 @@ import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 var tabs = [
   ["About HSA", 'assets/heart.jpeg'],
@@ -629,9 +630,14 @@ class ButtonWidget extends StatelessWidget {
   }
 }
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
+  @override
+  State<WelcomePage> createState() => _WelcomePageState();
+}
+
+class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -960,7 +966,7 @@ class WelcomePage extends StatelessWidget {
                     target: LinkTarget.self,
                     uri: Uri.parse("www.healthyhearts.org.au"),
                     builder: (context, followLink) => InkWell(
-                      onTap: () => followLink,
+                      onTap: followLink,
                       child: Container(
                         child: Column(
                           children: [

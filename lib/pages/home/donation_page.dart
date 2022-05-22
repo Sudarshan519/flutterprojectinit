@@ -145,7 +145,7 @@ class _DonationPageState extends State<DonationPage> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      height: 45,
+                      height: 50,
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
