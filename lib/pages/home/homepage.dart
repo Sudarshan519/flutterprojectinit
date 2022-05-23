@@ -1017,7 +1017,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   padding: const EdgeInsets.all(18.0),
                   child: Link(
                     target: LinkTarget.self,
-                    uri: Uri.parse("www.healthyhearts.org.au"),
+                    uri: Uri.parse("https://www.healthyhearts.org.au"),
                     builder: (context, followLink) => InkWell(
                       onTap: followLink,
                       child: Container(
