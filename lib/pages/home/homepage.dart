@@ -5,15 +5,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/controllers/homeController.dart';
-import 'package:projectinit/pages/auth/login/auth.dart';
 import 'package:projectinit/pages/contact/contact.dart';
-import 'package:projectinit/pages/detailPage/DetailPage.dart';
-import 'package:projectinit/pages/gatheringpage/gatheringPage.dart';
-import 'package:projectinit/pages/home/allgatherings.dart';
 import 'package:projectinit/pages/home/donation_page.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
-import 'package:projectinit/pages/join_gathering/join_gathering.dart';
-import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
 import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
 import 'package:projectinit/pages/tracker/tracker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,6 +24,8 @@ var tabs = [
   ["Quit Vices", 'assets/more.jpeg'],
   ["Stress Less\n Smile More", 'assets/more.jpeg']
 ];
+var tabsImage = [];
+var tabsTexts = [];
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -44,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   int activeIndex = 1;
   var homeTabs = [
     HomeWidget(),
-    // HomeEditWidget(),
+    // AdminHomePage(),
     SafeArea(child: TrackerPage()),
   ];
   var navItems = [
@@ -156,16 +152,16 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class HomeEditWidget extends StatefulWidget {
-  HomeEditWidget({
+class AdminHomePage extends StatefulWidget {
+  AdminHomePage({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<HomeEditWidget> createState() => _HomeEditWidgetState();
+  State<AdminHomePage> createState() => _AdminHomePageState();
 }
 
-class _HomeEditWidgetState extends State<HomeEditWidget> {
+class _AdminHomePageState extends State<AdminHomePage> {
   final name = TextEditingController();
   // final HomeController homeController = Get.find();
   @override
@@ -252,11 +248,260 @@ class _HomeEditWidgetState extends State<HomeEditWidget> {
                 width: 180,
                 child: InkWell(
                   onTap: () {
-                    showAboutDialog(
-                        context: context,
-                        applicationName: "Heart Health Support",
-                        applicationVersion: "0.1",
-                        children: [const LoremText1()]);
+                    switch (index) {
+                      case 0:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "About HSA",
+                            //applicationVersion: "0.1",
+
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/heart.jpeg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              Text(
+                                "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+
+                      case 1:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Healthy Eating",
+                            //applicationVersion: "0.1",
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/diet.jpeg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              const Text(
+                                "Eat your meals with no added salt and no added sugar. Enjoy a variety of fruits, vegetables, whole grains and lean protein, and try seasoning with herbs and spices instead. Your heart and your tastebuds will thank you!",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+                      case 2:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Sleep Well",
+                            //applicationVersion: "0.1",
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/sleep.jpeg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 15),
+                              const Text(
+                                "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+                      case 3:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Regular Exercise",
+                            //applicationVersion: "0.1",
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/exercise.jpeg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 25),
+                              const Text(
+                                "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+                      case 4:
+                        Get.to(DonationPage());
+                        break;
+                      case 5:
+                        launchUrl(
+                            Uri.parse(
+                              "https://www.healthyhearts.org.au",
+                            ),
+                            mode: LaunchMode.inAppWebView);
+                        break;
+                      case 6:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Commit to Quit ",
+                            //applicationVersion: "0.1",
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/vices.jpg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 25),
+                              const Text(
+                                "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+                      case 7:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Stress Less Smile More",
+                            //applicationVersion: "0.1",
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                    // ignore: prefer_const_literals_to_create_immutables
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        offset: const Offset(
+                                          5.0,
+                                          5.0,
+                                        ),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 1.0,
+                                      )
+                                    ]),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image(
+                                    // height: 100,
+                                    // width: 150,
+                                    image: AssetImage(
+                                      "assets/smile.jpg",
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 25),
+                              const Text(
+                                "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(height: 1.8),
+                              )
+                            ]);
+                        break;
+                      default:
+                        showAboutDialog(
+                            context: context,
+                            applicationName: "Heart Health Support",
+                            applicationVersion: "0.1",
+                            children: [const LoremText1()]);
+                    }
 
                     // Get.to(() => const GatheringPage());
                   },

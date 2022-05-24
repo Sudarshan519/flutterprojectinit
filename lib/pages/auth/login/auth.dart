@@ -453,7 +453,7 @@ class AdminLogin extends StatelessWidget {
                   label: 'Submit',
                   onPressed: () {
                     if (key.currentState!.validate()) {
-                      Get.offAll(() => HomeEditWidget());
+                      Get.offAll(() => AdminHomePage());
                     }
                   })
             ]),
