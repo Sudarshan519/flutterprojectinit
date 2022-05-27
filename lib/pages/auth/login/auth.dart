@@ -268,33 +268,33 @@ class _SignupPageState extends State<SignupPage> {
                 SizedBox(
                   height: 20,
                 ),
-                InkWell(
-                  onTap: () async {
-                    var date = await showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(1800),
-                        lastDate: DateTime.now());
-                    //  print(date);
-                    if (date != null) selectedDate = date;
-                    setState(() {});
-                  },
-                  child: CustomInputField(
-                    isEnable: false,
-                    obscureText: true,
-                    label: selectedDate.toString().substring(0, 10),
-                    controller: cpassword,
-                    validator: (String? v) {
-                      if (v! == "") {
-                        return '* Required';
-                      } else if (v == password.text) {
-                        return null;
-                      } else {
-                        return "Password don't match";
-                      }
-                    },
-                  ),
-                ),
+                // InkWell(
+                //   onTap: () async {
+                //     var date = await showDatePicker(
+                //         context: context,
+                //         initialDate: DateTime.now(),
+                //         firstDate: DateTime(1800),
+                //         lastDate: DateTime.now());
+                //     //  print(date);
+                //     if (date != null) selectedDate = date;
+                //     setState(() {});
+                //   },
+                //   child: CustomInputField(
+                //     isEnable: false,
+                //     obscureText: true,
+                //     label: selectedDate.toString().substring(0, 10),
+                //     controller: cpassword,
+                //     validator: (String? v) {
+                //       if (v! == "") {
+                //         return '* Required';
+                //       } else if (v == password.text) {
+                //         return null;
+                //       } else {
+                //         return "Password don't match";
+                //       }
+                //     },
+                //   ),
+                // ),
                 const SizedBox(
                   height: 30,
                 ),

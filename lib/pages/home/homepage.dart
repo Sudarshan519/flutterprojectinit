@@ -226,7 +226,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
         },
         child: SafeArea(
             child: isloading
-                ? CircularProgressIndicator()
+                ? Center(child: CircularProgressIndicator())
                 : SingleChildScrollView(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -267,10 +267,12 @@ class _AdminHomePageState extends State<AdminHomePage> {
                                 child: Stack(
                                     alignment: Alignment.center,
                                     children: const [
-                                      CircleAvatar(
-                                          radius: 50,
-                                          backgroundImage:
-                                              AssetImage("assets/profile.jpg")),
+                                      Icon(CupertinoIcons.profile_circled,
+                                          size: 100, color: Colors.red),
+                                      // CircleAvatar(
+                                      //     radius: 50,
+                                      //     backgroundImage:
+                                      //         AssetImage("assets/profile.jpg")),
                                       // Align(
                                       //     alignment: Alignment.bottomLeft,
                                       //     child: CircleAvatar(
@@ -288,466 +290,470 @@ class _AdminHomePageState extends State<AdminHomePage> {
                           height: 30,
                         ),
                         Wrap(
+                            alignment: WrapAlignment.center,
                             // itemCount: tabs.length,
                             // gridDelegate:
                             //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                             children: // (BuildContext context, int index) =>
                                 List.generate(
-                          tabs.length,
-                          (index) => Container(
-                            padding: const EdgeInsets.all(12),
-                            // alignment: Alignment.center,
-                            // decoration: BoxDecoration(
-                            //   borderRadius: BorderRadius.circular(18),
-                            //   color: Colors.black.withOpacity(.5),
-                            //   image: const DecorationImage(
-                            //       image: NetworkImage(
-                            //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                            //       fit: BoxFit.fill),
-                            // ),
-                            height: 200,
-                            width: 180,
-                            child: InkWell(
-                              onTap: () {
-                                switch (index) {
-                                  case 0:
-                                    Get.to(DonationPage());
-                                    break;
-                                  case 1:
-                                    launchUrl(Uri.parse(
-                                        "https://www.healthyhearts.org.au"));
-                                    break;
-                                  // case 0:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "About HSA",
-                                  //       //applicationVersion: "0.1",
+                              tabs.length,
+                              (index) => index == 0 || index == 1
+                                  ? Container()
+                                  : Container(
+                                      // alignment: Alignment.center,
+                                      padding: const EdgeInsets.all(12),
+                                      // alignment: Alignment.center,
+                                      // decoration: BoxDecoration(
+                                      //   borderRadius: BorderRadius.circular(18),
+                                      //   color: Colors.black.withOpacity(.5),
+                                      //   image: const DecorationImage(
+                                      //       image: NetworkImage(
+                                      //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                                      //       fit: BoxFit.fill),
+                                      // ),
+                                      height: 200,
+                                      width: 180,
+                                      child: InkWell(
+                                        onTap: () {
+                                          switch (index) {
+                                            case 0:
+                                              Get.to(DonationPage());
+                                              break;
+                                            case 1:
+                                              launchUrl(Uri.parse(
+                                                  "https://www.healthyhearts.org.au"));
+                                              break;
+                                            // case 0:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "About HSA",
+                                            //       //applicationVersion: "0.1",
 
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/heart.jpeg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 15),
-                                  //         Text(
-                                  //           "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/heart.jpeg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 15),
+                                            //         Text(
+                                            //           "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
 
-                                  // case 1:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "Healthy Eating",
-                                  //       //applicationVersion: "0.1",
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/diet.jpeg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 15),
-                                  //         Text(
-                                  //           servicesList[index].toString(),
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
-                                  // case 2:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "Sleep Well",
-                                  //       //applicationVersion: "0.1",
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/sleep.jpeg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 15),
-                                  //         const Text(
-                                  //           "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
-                                  // case 3:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "Regular Exercise",
-                                  //       //applicationVersion: "0.1",
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/exercise.jpeg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 25),
-                                  //         const Text(
-                                  //           "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
-                                  // case 4:
-                                  //   Get.to(DonationPage());
-                                  //   break;
-                                  // case 5:
-                                  //   launchUrl(
-                                  //       Uri.parse(
-                                  //         "https://www.healthyhearts.org.au",
-                                  //       ),
-                                  //       mode: LaunchMode.inAppWebView);
-                                  //   break;
-                                  // case 6:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "Commit to Quit ",
-                                  //       //applicationVersion: "0.1",
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/vices.jpg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 25),
-                                  //         const Text(
-                                  //           "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
-                                  // case 7:
-                                  //   showAboutDialog(
-                                  //       context: context,
-                                  //       applicationName: "Stress Less Smile More",
-                                  //       //applicationVersion: "0.1",
-                                  //       children: [
-                                  //         Container(
-                                  //           decoration: BoxDecoration(
-                                  //               // ignore: prefer_const_literals_to_create_immutables
-                                  //               boxShadow: [
-                                  //                 BoxShadow(
-                                  //                   color: Colors.grey,
-                                  //                   offset: const Offset(
-                                  //                     5.0,
-                                  //                     5.0,
-                                  //                   ),
-                                  //                   blurRadius: 10.0,
-                                  //                   spreadRadius: 1.0,
-                                  //                 )
-                                  //               ]),
-                                  //           child: ClipRRect(
-                                  //             borderRadius:
-                                  //                 BorderRadius.circular(10),
-                                  //             child: Image(
-                                  //               // height: 100,
-                                  //               // width: 150,
-                                  //               image: AssetImage(
-                                  //                 "assets/smile.jpg",
-                                  //               ),
-                                  //             ),
-                                  //           ),
-                                  //         ),
-                                  //         SizedBox(height: 25),
-                                  //         const Text(
-                                  //           "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
-                                  //           textAlign: TextAlign.justify,
-                                  //           style: TextStyle(height: 1.8),
-                                  //         )
-                                  //       ]);
-                                  //   break;
-                                  default:
-                                    Get.dialog(
-                                        // context: context,
+                                            // case 1:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "Healthy Eating",
+                                            //       //applicationVersion: "0.1",
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/diet.jpeg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 15),
+                                            //         Text(
+                                            //           servicesList[index].toString(),
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
+                                            // case 2:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "Sleep Well",
+                                            //       //applicationVersion: "0.1",
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/sleep.jpeg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 15),
+                                            //         const Text(
+                                            //           "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
+                                            // case 3:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "Regular Exercise",
+                                            //       //applicationVersion: "0.1",
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/exercise.jpeg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 25),
+                                            //         const Text(
+                                            //           "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
+                                            // case 4:
+                                            //   Get.to(DonationPage());
+                                            //   break;
+                                            // case 5:
+                                            //   launchUrl(
+                                            //       Uri.parse(
+                                            //         "https://www.healthyhearts.org.au",
+                                            //       ),
+                                            //       mode: LaunchMode.inAppWebView);
+                                            //   break;
+                                            // case 6:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "Commit to Quit ",
+                                            //       //applicationVersion: "0.1",
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/vices.jpg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 25),
+                                            //         const Text(
+                                            //           "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
+                                            // case 7:
+                                            //   showAboutDialog(
+                                            //       context: context,
+                                            //       applicationName: "Stress Less Smile More",
+                                            //       //applicationVersion: "0.1",
+                                            //       children: [
+                                            //         Container(
+                                            //           decoration: BoxDecoration(
+                                            //               // ignore: prefer_const_literals_to_create_immutables
+                                            //               boxShadow: [
+                                            //                 BoxShadow(
+                                            //                   color: Colors.grey,
+                                            //                   offset: const Offset(
+                                            //                     5.0,
+                                            //                     5.0,
+                                            //                   ),
+                                            //                   blurRadius: 10.0,
+                                            //                   spreadRadius: 1.0,
+                                            //                 )
+                                            //               ]),
+                                            //           child: ClipRRect(
+                                            //             borderRadius:
+                                            //                 BorderRadius.circular(10),
+                                            //             child: Image(
+                                            //               // height: 100,
+                                            //               // width: 150,
+                                            //               image: AssetImage(
+                                            //                 "assets/smile.jpg",
+                                            //               ),
+                                            //             ),
+                                            //           ),
+                                            //         ),
+                                            //         SizedBox(height: 25),
+                                            //         const Text(
+                                            //           "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
+                                            //           textAlign: TextAlign.justify,
+                                            //           style: TextStyle(height: 1.8),
+                                            //         )
+                                            //       ]);
+                                            //   break;
+                                            default:
+                                              Get.dialog(
+                                                  // context: context,
 
-                                        // applicationVersion: "0.1",
-                                        AlertDialog(
-                                      title: Text(
-                                        servicesList[index]["service_name"]
-                                            .toString()
-                                            .replaceAll('\\n', '\n'),
-                                      ),
-                                      content: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            servicesList[index]['info'],
-                                          )
-                                        ],
-                                      ),
-                                    ));
-                                }
+                                                  // applicationVersion: "0.1",
+                                                  AlertDialog(
+                                                title: Text(
+                                                  servicesList[index]
+                                                          ["service_name"]
+                                                      .toString()
+                                                      .replaceAll('\\n', '\n'),
+                                                ),
+                                                content: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    Text(
+                                                      servicesList[index]
+                                                          ['info'],
+                                                    )
+                                                  ],
+                                                ),
+                                              ));
+                                          }
 
-                                // Get.to(() => const GatheringPage());
-                              },
-                              child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          height: 100,
-                                          width: 100,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            color: Colors.black.withOpacity(.5),
-                                            image: DecorationImage(
-                                                image:
-                                                    AssetImage(tabs[index][1]),
-                                                fit: BoxFit.fill),
-                                          ),
-                                          // child: ClipRRect(
-                                          //   borderRadius: BorderRadius.circular(16),
-                                          //   child: Image.network(
-                                          //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                                          //     fit: BoxFit.fill,
-                                          //     height: 120,
-                                          //     width: double.infinity,
-                                          //   ),
-                                          // ),
-                                        ),
-                                        const SizedBox(
-                                          width: 10,
-                                        ),
-                                        index == 0 || index == 1
-                                            ? Container()
-                                            : Column(
+                                          // Get.to(() => const GatheringPage());
+                                        },
+                                        child: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
                                                 children: [
-                                                  InkWell(
-                                                      onTap: () {
-                                                        name.text =
-                                                            servicesList[index]
-                                                                ["info"];
-                                                        Get.bottomSheet(
-                                                            Container(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(18),
-                                                          color: Colors.white,
-                                                          child:
-                                                              SingleChildScrollView(
-                                                            child: Column(
-                                                                mainAxisSize:
-                                                                    MainAxisSize
-                                                                        .min,
-                                                                children: [
-                                                                  TextField(
-                                                                      maxLines:
-                                                                          5,
-                                                                      controller:
-                                                                          name),
-                                                                  SizedBox(
-                                                                      height:
-                                                                          20),
-                                                                  CustomButton(
-                                                                      label:
-                                                                          'Submit',
-                                                                      onPressed:
-                                                                          () async {
-                                                                        AllServices().updateService(
-                                                                            name.text,
-                                                                            document[index].id,
-                                                                            context);
+                                                  Container(
+                                                    height: 100,
+                                                    width: 100,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      color: Colors.black
+                                                          .withOpacity(.5),
+                                                      image: DecorationImage(
+                                                          image: AssetImage(
+                                                              tabs[index][1]),
+                                                          fit: BoxFit.fill),
+                                                    ),
+                                                    // child: ClipRRect(
+                                                    //   borderRadius: BorderRadius.circular(16),
+                                                    //   child: Image.network(
+                                                    //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                                                    //     fit: BoxFit.fill,
+                                                    //     height: 120,
+                                                    //     width: double.infinity,
+                                                    //   ),
+                                                    // ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  index == 0 || index == 1
+                                                      ? Container()
+                                                      : Column(
+                                                          children: [
+                                                            InkWell(
+                                                                onTap: () {
+                                                                  name.text =
+                                                                      servicesList[
+                                                                              index]
+                                                                          [
+                                                                          "info"];
+                                                                  Get.bottomSheet(
+                                                                      Container(
+                                                                    padding:
+                                                                        const EdgeInsets.all(
+                                                                            18),
+                                                                    color: Colors
+                                                                        .white,
+                                                                    child:
+                                                                        SingleChildScrollView(
+                                                                      child: Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          children: [
+                                                                            TextField(
+                                                                                maxLines: 5,
+                                                                                controller: name),
+                                                                            SizedBox(height: 20),
+                                                                            CustomButton(
+                                                                                label: 'Submit',
+                                                                                onPressed: () async {
+                                                                                  AllServices().updateService(name.text, document[index].id, context);
 
-                                                                        servicesList[index]["info"] =
-                                                                            name.text;
-                                                                        // if (message.toString() ==
-                                                                        //         "" ||
-                                                                        //     message !=
-                                                                        //         null)
-                                                                        setState(
-                                                                            () {});
-                                                                        Get.back();
-                                                                        // print(
-                                                                        //     message);
-                                                                      })
-                                                                ]),
-                                                          ),
-                                                        ));
-                                                      },
-                                                      child: Icon(
-                                                          FontAwesomeIcons
-                                                              .penToSquare)),
-                                                  // SizedBox(height: 20),
-                                                  // InkWell(
-                                                  //     onTap: () {
-                                                  //       tabs.removeAt(index);
-                                                  //       setState(() {});
-                                                  //     },
-                                                  //     child: Icon(Icons.delete))
+                                                                                  servicesList[index]["info"] = name.text;
+                                                                                  // if (message.toString() ==
+                                                                                  //         "" ||
+                                                                                  //     message !=
+                                                                                  //         null)
+                                                                                  setState(() {});
+                                                                                  Get.back();
+                                                                                  Get.back();
+                                                                                  // print(
+                                                                                  //     message);
+                                                                                })
+                                                                          ]),
+                                                                    ),
+                                                                  ));
+                                                                },
+                                                                child: Icon(
+                                                                    FontAwesomeIcons
+                                                                        .penToSquare)),
+                                                            // SizedBox(height: 20),
+                                                            // InkWell(
+                                                            //     onTap: () {
+                                                            //       tabs.removeAt(index);
+                                                            //       setState(() {});
+                                                            //     },
+                                                            //     child: Icon(Icons.delete))
+                                                          ],
+                                                        ),
+                                                  const SizedBox(
+                                                    width: 20,
+                                                  ),
+
+                                                  // Container(
+                                                  //   height: 100,
+                                                  //   width: 120,
+                                                  //   alignment: Alignment.center,
+                                                  //   decoration: BoxDecoration(
+                                                  //       borderRadius: BorderRadius.circular(18),
+                                                  //       color: Colors.black.withOpacity(.5)),
+                                                  //   child: Text(
+                                                  //     tabs[index][0],
+                                                  //     textAlign: TextAlign.center,
+                                                  //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                                  //         fontWeight: FontWeight.w400,
+                                                  //         color: Colors
+                                                  //             .white), // style: const TextStyle(color: Colors.white),
+                                                  //   ),
+                                                  // ),
                                                 ],
                                               ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-
-                                        // Container(
-                                        //   height: 100,
-                                        //   width: 120,
-                                        //   alignment: Alignment.center,
-                                        //   decoration: BoxDecoration(
-                                        //       borderRadius: BorderRadius.circular(18),
-                                        //       color: Colors.black.withOpacity(.5)),
-                                        //   child: Text(
-                                        //     tabs[index][0],
-                                        //     textAlign: TextAlign.center,
-                                        //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                                        //         fontWeight: FontWeight.w400,
-                                        //         color: Colors
-                                        //             .white), // style: const TextStyle(color: Colors.white),
-                                        //   ),
-                                        // ),
-                                      ],
+                                              const SizedBox(
+                                                height: 8,
+                                              ),
+                                              // Row(
+                                              //   mainAxisAlignment: MainAxisAlignment.center,
+                                              //   children: const [
+                                              //     Icon(Icons.edit),
+                                              //     SizedBox(
+                                              //       width: 20,
+                                              //     ),
+                                              //     Icon(Icons.delete)
+                                              //   ],
+                                              // ),
+                                              // const SizedBox(
+                                              //   height: 10,
+                                              // ),
+                                              Text(
+                                                servicesList[index]
+                                                        ["service_name"]
+                                                    .toString()
+                                                    .replaceAll('\\n', '\n'),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                        color: Colors.red,
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                              ),
+                                            ]),
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    // Row(
-                                    //   mainAxisAlignment: MainAxisAlignment.center,
-                                    //   children: const [
-                                    //     Icon(Icons.edit),
-                                    //     SizedBox(
-                                    //       width: 20,
-                                    //     ),
-                                    //     Icon(Icons.delete)
-                                    //   ],
-                                    // ),
-                                    // const SizedBox(
-                                    //   height: 10,
-                                    // ),
-                                    Text(
-                                      servicesList[index]["service_name"]
-                                          .toString()
-                                          .replaceAll('\\n', '\n'),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleMedium!
-                                          .copyWith(
-                                              color: Colors.red,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                    ),
-                                  ]),
-                            ),
-                          ),
-                        ))
+                            ))
                       ],
                     ),
                   )),
@@ -977,22 +983,25 @@ class DrawerPage extends StatelessWidget {
               tileColor: Colors.red,
               // leading: const Icon(FontAwesomeIcons.info),
               title: Text(
-                "About App",
+                "About Us",
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: Colors.white),
               ),
-              onTap: () => showAboutDialog(
-                  context: context,
-                  applicationName: "Heart Support",
-                  applicationVersion: "0.1",
-                  children: [
-                    Text(
-                        """Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.
+              onTap: () => Get.dialog(AlertDialog(
+                title: Text("Heart Support"),
+                content: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Text(
+                      """Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.
 Patients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.
 Heart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.""")
-                  ]),
+                ]),
+              )
+                  // context: context,
+                  // applicationName: "Heart Support",
+                  // applicationVersion: "0.1",
+                  ),
             ),
           if (homeController.authService.currentUser != null)
             const SizedBox(

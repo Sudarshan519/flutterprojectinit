@@ -68,6 +68,9 @@ class AllServices {
             (value) => print("'full_name' & 'age' merged with existing data!"))
         .catchError((error) => print("Failed to merge data: $error"));
   }
+  delete(){
+ 
+  }
 
   updateService(String data, String id, context) async {
     String message = '';

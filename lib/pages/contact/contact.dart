@@ -88,7 +88,12 @@ class _ContactPageState extends State<ContactPage> {
               const SizedBox(
                 height: 18,
               ),
-              CustomButton(label: "Submit", onPressed: () {})
+              CustomButton(
+                  label: "Submit",
+                  onPressed: () {
+                    Get.back();
+                    Get.snackbar("Success", "We will get back to you soon");
+                  })
               // const CustomInputField(label: "Email"),
             ]),
       ),

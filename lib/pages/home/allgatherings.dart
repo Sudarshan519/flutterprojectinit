@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/home/filterpage.dart';
@@ -9,6 +10,10 @@ class AllGatherings extends StatelessWidget {
   AllGatherings({
     Key? key,
   }) : super(key: key);
+  final gatheringsPath = FirebaseFirestore.instance
+      .collection('hospitalsupport')
+      .doc("gatheringtype")
+      .collection("gatherings");
   final Stream<QuerySnapshot> gatheringsStream = FirebaseFirestore.instance
       .collection('hospitalsupport')
       .doc("gatheringtype")
@@ -79,7 +84,17 @@ class AllGatherings extends StatelessWidget {
                   title: Text(data["username"].toString() +
                       " \n" +
                       "Meeting Date:\t ${data["date"]}\n Location: \t${data["location"]}\n Meeting type:\t ${data["type"].toUpperCase()}"),
-                  // trailing: Text(data['location']),
+                  trailing: FirebaseAuth.instance.currentUser == null
+                      ? IconButton(
+                          onPressed: () async {
+                            try {
+                              await gatheringsPath.doc(document.id).delete();
+                            } catch (e) {
+                              print(e.toString());
+                            }
+                          },
+                          icon: Icon(Icons.delete))
+                      : null,
                   // subtitle: Text(data.toString()),
                 );
               }).toList(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/widgets/reusable.dart';
 
@@ -8,6 +9,7 @@ class RegistrationSuccess extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.find();
     return SafeArea(
       child: Scaffold(
           body: Center(
@@ -43,7 +45,10 @@ class RegistrationSuccess extends StatelessWidget {
                 height: 30,
               ),
               GestureDetector(
-                onTap: () => Get.to(() => const HomePage()),
+                onTap: () => Get.to(() =>
+                    (homeController.authService.currentUser != null
+                        ? const HomePage()
+                        : AdminHomePage())),
                 child: Container(
                     color: Colors.red[600],
                     alignment: Alignment.center,

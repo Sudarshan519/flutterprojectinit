@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -26,13 +27,18 @@ class TrackerPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18.0),
               child: Row(children: [
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                  backgroundColor: Colors.transparent,
-                  radius: 30,
-                  // child: Icon(CupertinoIcons.person_circle, size: 40),
+                Icon(
+                  CupertinoIcons.profile_circled,
+                  size: 100,
+                  color: Colors.red,
                 ),
+                // const CircleAvatar(
+                //   backgroundImage: NetworkImage(
+                //       "https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                //   backgroundColor: Colors.transparent,
+                //   radius: 30,
+                //   // child: Icon(CupertinoIcons.person_circle, size: 40),
+                // ),
                 const SizedBox(
                   width: 20,
                 ),

@@ -6,12 +6,24 @@ import 'package:projectinit/services/firebase_service.dart';
 import 'package:projectinit/utils/validators.dart';
 import 'package:get/get.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   RegisterPage({Key? key}) : super(key: key);
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final date = TextEditingController();
+
   final time = TextEditingController();
+
   final location = TextEditingController();
+
   final fomrKey = GlobalKey<FormState>();
+  var selectedDate = DateTime.now();
+
+  final TextEditingController text = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -41,18 +53,62 @@ class RegisterPage extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              CustomInputField(
-                validator: validateIsEmpty,
-                controller: date,
-                label: "Enter Date",
+              InkWell(
+                onTap: () async {
+                  var date = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1800),
+                      lastDate: DateTime(3000));
+                  //  print(date);
+                  if (date != null) selectedDate = date;
+                  // text.text = date.toString();
+                  setState(() {});
+                },
+                child: CustomInputField(
+                  isEnable: false,
+                  obscureText: false,
+                  label: selectedDate.toString().substring(0, 10),
+                  controller: text,
+                  validator: (String? v) {
+                    // if (v! == "") {
+                    //   return '* Required';
+                    // } else if (v == password.text) {
+                    //   return null;
+                    // } else {
+                    //   return "Password don't match";
+                    // }
+                  },
+                ),
               ),
+              // CustomInputField(
+              //   validator: validateIsEmpty,
+              //   controller: date,
+              //   label: "Enter Date",
+              // ),
               const SizedBox(
                 height: 16,
               ),
-              CustomInputField(
-                validator: validateIsEmpty,
-                label: "Enter time",
-                controller: time,
+              InkWell(
+                onTap: () async {
+                  var now = DateTime.now();
+
+                  var pickedTime = await showTimePicker(
+                      context: context,
+                      initialTime: TimeOfDay(hour: 3, minute: 04));
+                  time.text = pickedTime!.hour.toString() +
+                      " : " +
+                      (pickedTime.minute < 10
+                          ? ('0' + pickedTime.minute.toString())
+                          : pickedTime.minute.toString()) +
+                      " ";
+                },
+                child: CustomInputField(
+                  isEnable: false,
+                  validator: validateIsEmpty,
+                  label: time.text,
+                  controller: time,
+                ),
               ),
               const SizedBox(
                 height: 16,
@@ -62,6 +118,7 @@ class RegisterPage extends StatelessWidget {
                 validator: validateIsEmpty,
                 label: "Enter location",
               ),
+
               const SizedBox(
                 height: 30,
               ),
@@ -71,10 +128,11 @@ class RegisterPage extends StatelessWidget {
                       label: "Register",
                       onPressed: () {
                         final HomeController homeController = Get.find();
-                        print("validating");
+
                         if (fomrKey.currentState!.validate()) {
+                          // print("validating");
                           var data = {
-                            "date": date.text,
+                            "date": selectedDate.toString().substring(0, 10),
                             "location": location.text,
                             "time": time.text,
                             "type": Get.arguments,
@@ -84,7 +142,7 @@ class RegisterPage extends StatelessWidget {
                             //  homeController
                             //     .authService.currentUser!.displayName
                           };
-                          print(data);
+                          // print(data);
                           gatheringService.joinGathering(data);
                         }
                       })),

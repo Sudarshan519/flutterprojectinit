@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/pages/join_gathering/gathering_success.dart';
 
 class FilterGathering extends StatefulWidget {
   const FilterGathering({Key? key}) : super(key: key);
@@ -42,9 +44,25 @@ class _FilterGatheringState extends State<FilterGathering> {
               children: List.generate(snapshot.data.docs.length, (index) {
                 var document = snapshot.data.docs[index];
                 return ListTile(
-                  title: Text(document["username"].toString()),
-                  subtitle: Text("Meeting location :" + document['location']),
-                  trailing: Text(document['date']),
+                  onTap: () {
+                    Get.to(const GatheringSuccess());
+                  },
+                  title: Text(document["username"].toString() +
+                      " \n" +
+                      "Meeting Date:\t ${document["date"]}\n Location: \t${document["location"]}\n Meeting type:\t ${document["type"].toUpperCase()}"),
+                  // subtitle: Text("Meeting location :" + document['location']),
+                  // trailing: Text(document['date']),
+                  trailing: FirebaseAuth.instance.currentUser == null
+                      ? IconButton(
+                          onPressed: () async {
+                            try {
+                              await gatheringsStream.doc(document.id).delete();
+                            } catch (e) {
+                              print(e.toString());
+                            }
+                          },
+                          icon: Icon(Icons.delete))
+                      : null,
                 );
               }),
             ),
