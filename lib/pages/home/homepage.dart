@@ -3,6 +3,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/controllers/homeController.dart';
@@ -795,9 +796,11 @@ class HomeWidget extends StatelessWidget {
                   ),
                   // const Spacer(),
                   const Center(
-                    child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: AssetImage("assets/profile.jpg")),
+                    child: Icon(
+                      CupertinoIcons.profile_circled,
+                      size: 100,
+                      color: Colors.red,
+                    ),
                   ),
                 ],
               ),
@@ -805,7 +808,7 @@ class HomeWidget extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            if (services.length > 0) WelcomePage(services: services),
+            if (services.isNotEmpty) WelcomePage(services: services),
             // logoWidget(),
             // const ButtonWidget(),
           ],
