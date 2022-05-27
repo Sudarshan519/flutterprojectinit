@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/pages/home/filterpage.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
+import 'package:projectinit/pages/join_gathering/gathering_success.dart';
 
 class AllGatherings extends StatelessWidget {
   AllGatherings({
@@ -53,7 +54,7 @@ class AllGatherings extends StatelessWidget {
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
             int i = 0;
             if (snapshot.hasError) {
-              return const Text("Something went wrong");
+              return const Text("   went wrong");
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Text("Loading");
             }
@@ -65,6 +66,9 @@ class AllGatherings extends StatelessWidget {
                 Map<String, dynamic> data =
                     document.data()! as Map<String, dynamic>;
                 return ListTile(
+                  onTap: () {
+                    Get.to(const GatheringSuccess());
+                  },
                   // contentPadding: EdgeInsets.zero,
                   minLeadingWidth: 0,
                   leading: CircleAvatar(

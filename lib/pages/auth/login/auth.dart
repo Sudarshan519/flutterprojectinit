@@ -180,14 +180,26 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class SignupPage extends StatelessWidget {
-  final formKey = GlobalKey<FormState>();
-  final username = TextEditingController();
-  final email = TextEditingController();
-  final password = TextEditingController();
-  final cpassword = TextEditingController();
-  final AuthController authController = Get.find();
+class SignupPage extends StatefulWidget {
   SignupPage({Key? key}) : super(key: key);
+
+  @override
+  State<SignupPage> createState() => _SignupPageState();
+}
+
+class _SignupPageState extends State<SignupPage> {
+  final formKey = GlobalKey<FormState>();
+
+  final username = TextEditingController();
+
+  final email = TextEditingController();
+
+  final password = TextEditingController();
+
+  final cpassword = TextEditingController();
+
+  final AuthController authController = Get.find();
+  var selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,6 +264,36 @@ class SignupPage extends StatelessWidget {
                 ),
                 const SizedBox(
                   height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () async {
+                    var date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1800),
+                        lastDate: DateTime.now());
+                    //  print(date);
+                    if (date != null) selectedDate = date;
+                    setState(() {});
+                  },
+                  child: CustomInputField(
+                    isEnable: false,
+                    obscureText: true,
+                    label: selectedDate.toString().substring(0, 10),
+                    controller: cpassword,
+                    validator: (String? v) {
+                      if (v! == "") {
+                        return '* Required';
+                      } else if (v == password.text) {
+                        return null;
+                      } else {
+                        return "Password don't match";
+                      }
+                    },
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
@@ -449,7 +491,6 @@ class AdminLogin extends StatelessWidget {
               SizedBox(
                 height: 20,
               ),
-             
               SizedBox(
                 height: 20,
               ),
