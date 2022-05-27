@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:get/get.dart';
 
-class ContactPage extends StatelessWidget {
+class ContactPage extends StatefulWidget {
   const ContactPage({Key? key}) : super(key: key);
+
+  @override
+  State<ContactPage> createState() => _ContactPageState();
+}
+
+class _ContactPageState extends State<ContactPage> {
+  var selected = 'pulse';
 
   @override
   Widget build(BuildContext context) {
@@ -59,19 +66,22 @@ class ContactPage extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+                  Radio(value: 'pulse', groupValue: 'pulse', onChanged: (v) {}),
                   const Text("Pulse Rate Monitor"),
                 ],
               ),
               Row(
                 children: [
-                  Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+                  Radio(value: 'heart', groupValue: 'pulse', onChanged: (v) {}),
                   const Text("Pulse Rate Monitor"),
                 ],
               ),
               Row(
                 children: [
-                  Radio(value: false, groupValue: 'pulse', onChanged: (v) {}),
+                  Radio(
+                      value: 'medication',
+                      groupValue: 'pulse',
+                      onChanged: (v) {}),
                   const Text("Pulse Rate Monitor"),
                 ],
               ),
@@ -93,7 +103,7 @@ class OutlineFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      keyboardType: TextInputType.number,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           labelStyle: Theme.of(context).textTheme.headline6,
           floatingLabelBehavior: FloatingLabelBehavior.always,

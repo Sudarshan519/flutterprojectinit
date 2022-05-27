@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/controllers/homeController.dart';
@@ -9,9 +10,8 @@ import 'package:projectinit/pages/contact/contact.dart';
 import 'package:projectinit/pages/home/donation_page.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/pulse_record/pulseRecordPage.dart';
-import 'package:projectinit/pages/tracker/tracker.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:url_launcher/link.dart';
+import 'package:projectinit/services/firebase_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 var tabs = [
@@ -21,8 +21,8 @@ var tabs = [
   ["Regular \nExercise", 'assets/exercise.jpeg'],
   ["Easy to\n Donate", 'assets/dontae.jpeg'],
   ["Healthy Heart\n Challanges", 'assets/more.jpeg'],
-  ["Quit Vices", 'assets/more.jpeg'],
-  ["Stress Less\n Smile More", 'assets/more.jpeg']
+  ["Quit Vices", "assets/vices.jpg"],
+  ["Stress Less\n Smile More", "assets/smile.jpg"]
 ];
 var tabsImage = [];
 var tabsTexts = [];
@@ -38,11 +38,33 @@ class _HomePageState extends State<HomePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final homeController = Get.put(HomeController());
   int activeIndex = 1;
-  var homeTabs = [
-    HomeWidget(),
-    // AdminHomePage(),
-    SafeArea(child: TrackerPage()),
-  ];
+  var servicesList = [];
+  var document = [];
+  var isloading = false;
+  getServices() async {
+    List<QueryDocumentSnapshot<Object?>> queryDocuments =
+        await AllServices().getAllServices();
+    print(queryDocuments.length);
+    document.addAll(queryDocuments);
+    for (var service in queryDocuments) {
+      servicesList.add(service.data());
+    }
+    isloading = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    getServices();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  // var homeTabs = [
+  //   HomeWidget(services: servicesList),
+  //   // AdminHomePage(),
+  //   SafeArea(child: TrackerPage()),
+  // ];
   var navItems = [
     const BottomNavigationBarItem(label: "", icon: Icon(Icons.menu)),
     // const BottomNavigationBarItem(label: "", icon: Icon(Icons.house)),
@@ -125,29 +147,35 @@ class _HomePageState extends State<HomePage> {
         return false;
       },
       child: Scaffold(
-        key: scaffoldKey,
-        bottomNavigationBar: BottomNavigation(
-          isHome: true,
-        ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //     type: BottomNavigationBarType.fixed,
-        //     onTap: (i) {
-        //       if (i == 0) {
-        //         scaffoldKey.currentState!.openDrawer();
-        //       } else {
-        //         changeTab(i);
-        //       }
-        //     },
-        //     currentIndex: activeIndex,
-        //     backgroundColor: Colors.red,
-        //     showSelectedLabels: false,
-        //     showUnselectedLabels: false,
-        //     unselectedItemColor: Colors.grey[200],
-        //     selectedItemColor: Colors.grey[400],
-        //     items: navItems),
-        drawer: DrawerPage(),
-        body: homeTabs[activeIndex - 1],
-      ),
+          key: scaffoldKey,
+          bottomNavigationBar: BottomNavigation(
+            isHome: true,
+          ),
+          // bottomNavigationBar: BottomNavigationBar(
+          //     type: BottomNavigationBarType.fixed,
+          //     onTap: (i) {
+          //       if (i == 0) {
+          //         scaffoldKey.currentState!.openDrawer();
+          //       } else {
+          //         changeTab(i);
+          //       }
+          //     },
+          //     currentIndex: activeIndex,
+          //     backgroundColor: Colors.red,
+          //     showSelectedLabels: false,
+          //     showUnselectedLabels: false,
+          //     unselectedItemColor: Colors.grey[200],
+          //     selectedItemColor: Colors.grey[400],
+          //     items: navItems),
+          drawer: DrawerPage(),
+          body: isloading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : HomeWidget(
+                  services: servicesList,
+                ) // homeTabs[activeIndex - 1],
+          ),
     );
   }
 }
@@ -163,465 +191,566 @@ class AdminHomePage extends StatefulWidget {
 
 class _AdminHomePageState extends State<AdminHomePage> {
   final name = TextEditingController();
+  var isloading = true;
+  var servicesList = [];
+  var document = [];
+  getServices() async {
+    List<QueryDocumentSnapshot<Object?>> queryDocuments =
+        await AllServices().getAllServices();
+    // print(queryDocuments.length);
+    document.addAll(queryDocuments);
+    for (var service in queryDocuments) {
+      servicesList.add(service.data());
+    }
+    isloading = false;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    getServices();
+    super.initState();
+  }
+
   // final HomeController homeController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: DrawerPage(),
       bottomNavigationBar: const BottomNavigation(isHome: true),
-      body: SafeArea(
-          child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  ListTile(
-                    tileColor: Colors.red,
-                    title: Text(
-                      "Welcome ",
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headline4!
-                          .copyWith(fontSize: 30, color: Colors.white),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  // const Spacer(),
-                  Container(
-                    height: 100,
-                    width: 100,
-                    decoration: const BoxDecoration(
-                        // shape: BoxShape.circle,
-                        // color: Colors.grey,
-                        ),
-                    child: Stack(alignment: Alignment.center, children: const [
-                      CircleAvatar(
-                          radius: 50,
-                          backgroundImage: AssetImage("assets/profile.jpg")),
-                      Align(
-                          alignment: Alignment.bottomLeft,
-                          child: CircleAvatar(
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.red,
-                            ),
-                          ))
-                    ]),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Wrap(
-                // itemCount: tabs.length,
-                // gridDelegate:
-                //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                children: // (BuildContext context, int index) =>
-                    List.generate(
-              tabs.length,
-              (index) => Container(
-                padding: const EdgeInsets.all(12),
-                // alignment: Alignment.center,
-                // decoration: BoxDecoration(
-                //   borderRadius: BorderRadius.circular(18),
-                //   color: Colors.black.withOpacity(.5),
-                //   image: const DecorationImage(
-                //       image: NetworkImage(
-                //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
-                //       fit: BoxFit.fill),
-                // ),
-                height: 200,
-                width: 180,
-                child: InkWell(
-                  onTap: () {
-                    switch (index) {
-                      case 0:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "About HSA",
-                            //applicationVersion: "0.1",
-
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/heart.jpeg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              Text(
-                                "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-
-                      case 1:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Healthy Eating",
-                            //applicationVersion: "0.1",
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/diet.jpeg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              const Text(
-                                "Eat your meals with no added salt and no added sugar. Enjoy a variety of fruits, vegetables, whole grains and lean protein, and try seasoning with herbs and spices instead. Your heart and your tastebuds will thank you!",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-                      case 2:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Sleep Well",
-                            //applicationVersion: "0.1",
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/sleep.jpeg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-                              const Text(
-                                "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-                      case 3:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Regular Exercise",
-                            //applicationVersion: "0.1",
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/exercise.jpeg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 25),
-                              const Text(
-                                "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-                      case 4:
-                        Get.to(DonationPage());
-                        break;
-                      case 5:
-                        launchUrl(
-                            Uri.parse(
-                              "https://www.healthyhearts.org.au",
-                            ),
-                            mode: LaunchMode.inAppWebView);
-                        break;
-                      case 6:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Commit to Quit ",
-                            //applicationVersion: "0.1",
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/vices.jpg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 25),
-                              const Text(
-                                "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-                      case 7:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Stress Less Smile More",
-                            //applicationVersion: "0.1",
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                    // ignore: prefer_const_literals_to_create_immutables
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.grey,
-                                        offset: const Offset(
-                                          5.0,
-                                          5.0,
-                                        ),
-                                        blurRadius: 10.0,
-                                        spreadRadius: 1.0,
-                                      )
-                                    ]),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(10),
-                                  child: Image(
-                                    // height: 100,
-                                    // width: 150,
-                                    image: AssetImage(
-                                      "assets/smile.jpg",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 25),
-                              const Text(
-                                "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(height: 1.8),
-                              )
-                            ]);
-                        break;
-                      default:
-                        showAboutDialog(
-                            context: context,
-                            applicationName: "Heart Health Support",
-                            applicationVersion: "0.1",
-                            children: [const LoremText1()]);
-                    }
-
-                    // Get.to(() => const GatheringPage());
-                  },
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+      body: RefreshIndicator(
+        onRefresh: () async {
+          getServices();
+        },
+        child: SafeArea(
+            child: isloading
+                ? CircularProgressIndicator()
+                : SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: Colors.black.withOpacity(.5),
-                                image: DecorationImage(
-                                    image: AssetImage(tabs[index][1]),
-                                    fit: BoxFit.fill),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const SizedBox(
+                                height: 30,
                               ),
-                              // child: ClipRRect(
-                              //   borderRadius: BorderRadius.circular(16),
-                              //   child: Image.network(
-                              //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-                              //     fit: BoxFit.fill,
-                              //     height: 120,
-                              //     width: double.infinity,
-                              //   ),
-                              // ),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              children: [
-                                InkWell(
-                                    onTap: () {
-                                      name.text = tabs[index][0];
-                                      Get.bottomSheet(Container(
-                                        padding: const EdgeInsets.all(18),
-                                        color: Colors.white,
-                                        child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              TextField(controller: name),
-                                              SizedBox(height: 20),
-                                              CustomButton(
-                                                  label: 'Submit',
-                                                  onPressed: () {
-                                                    tabs[index][0] = name.text;
-                                                    setState(() {});
-                                                    Get.back();
-                                                  })
-                                            ]),
-                                      ));
-                                    },
-                                    child: Icon(FontAwesomeIcons.penToSquare)),
-                                SizedBox(height: 20),
-                                InkWell(
-                                    onTap: () {
-                                      tabs.removeAt(index);
-                                      setState(() {});
-                                    },
-                                    child: Icon(Icons.delete))
-                              ],
-                            ),
-                            const SizedBox(
-                              width: 20,
-                            ),
-
-                            // Container(
-                            //   height: 100,
-                            //   width: 120,
-                            //   alignment: Alignment.center,
-                            //   decoration: BoxDecoration(
-                            //       borderRadius: BorderRadius.circular(18),
-                            //       color: Colors.black.withOpacity(.5)),
-                            //   child: Text(
-                            //     tabs[index][0],
-                            //     textAlign: TextAlign.center,
-                            //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                            //         fontWeight: FontWeight.w400,
-                            //         color: Colors
-                            //             .white), // style: const TextStyle(color: Colors.white),
-                            //   ),
-                            // ),
-                          ],
+                              ListTile(
+                                tileColor: Colors.red,
+                                title: Text(
+                                  "Welcome ",
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headline4!
+                                      .copyWith(
+                                          fontSize: 30, color: Colors.white),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 30,
+                              ),
+                              // const Spacer(),
+                              Container(
+                                height: 100,
+                                width: 100,
+                                decoration: const BoxDecoration(
+                                    // shape: BoxShape.circle,
+                                    // color: Colors.grey,
+                                    ),
+                                child: Stack(
+                                    alignment: Alignment.center,
+                                    children: const [
+                                      CircleAvatar(
+                                          radius: 50,
+                                          backgroundImage:
+                                              AssetImage("assets/profile.jpg")),
+                                      // Align(
+                                      //     alignment: Alignment.bottomLeft,
+                                      //     child: CircleAvatar(
+                                      //       child: Icon(
+                                      //         Icons.edit,
+                                      //         color: Colors.red,
+                                      //       ),
+                                      //     ))
+                                    ]),
+                              ),
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          height: 8,
+                          height: 30,
                         ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: const [
-                        //     Icon(Icons.edit),
-                        //     SizedBox(
-                        //       width: 20,
-                        //     ),
-                        //     Icon(Icons.delete)
-                        //   ],
-                        // ),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        Text(
-                          tabs[index][0],
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(
-                                  color: Colors.red,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
-                        ),
-                      ]),
-                ),
-              ),
-            ))
-          ],
-        ),
-      )),
+                        Wrap(
+                            // itemCount: tabs.length,
+                            // gridDelegate:
+                            //     const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                            children: // (BuildContext context, int index) =>
+                                List.generate(
+                          tabs.length,
+                          (index) => Container(
+                            padding: const EdgeInsets.all(12),
+                            // alignment: Alignment.center,
+                            // decoration: BoxDecoration(
+                            //   borderRadius: BorderRadius.circular(18),
+                            //   color: Colors.black.withOpacity(.5),
+                            //   image: const DecorationImage(
+                            //       image: NetworkImage(
+                            //           "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+                            //       fit: BoxFit.fill),
+                            // ),
+                            height: 200,
+                            width: 180,
+                            child: InkWell(
+                              onTap: () {
+                                switch (index) {
+                                  case 0:
+                                    Get.to(DonationPage());
+                                    break;
+                                  case 1:
+                                    launchUrl(Uri.parse(
+                                        "https://www.healthyhearts.org.au"));
+                                    break;
+                                  // case 0:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "About HSA",
+                                  //       //applicationVersion: "0.1",
+
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/heart.jpeg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 15),
+                                  //         Text(
+                                  //           "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+
+                                  // case 1:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "Healthy Eating",
+                                  //       //applicationVersion: "0.1",
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/diet.jpeg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 15),
+                                  //         Text(
+                                  //           servicesList[index].toString(),
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+                                  // case 2:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "Sleep Well",
+                                  //       //applicationVersion: "0.1",
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/sleep.jpeg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 15),
+                                  //         const Text(
+                                  //           "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+                                  // case 3:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "Regular Exercise",
+                                  //       //applicationVersion: "0.1",
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/exercise.jpeg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 25),
+                                  //         const Text(
+                                  //           "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+                                  // case 4:
+                                  //   Get.to(DonationPage());
+                                  //   break;
+                                  // case 5:
+                                  //   launchUrl(
+                                  //       Uri.parse(
+                                  //         "https://www.healthyhearts.org.au",
+                                  //       ),
+                                  //       mode: LaunchMode.inAppWebView);
+                                  //   break;
+                                  // case 6:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "Commit to Quit ",
+                                  //       //applicationVersion: "0.1",
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/vices.jpg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 25),
+                                  //         const Text(
+                                  //           "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+                                  // case 7:
+                                  //   showAboutDialog(
+                                  //       context: context,
+                                  //       applicationName: "Stress Less Smile More",
+                                  //       //applicationVersion: "0.1",
+                                  //       children: [
+                                  //         Container(
+                                  //           decoration: BoxDecoration(
+                                  //               // ignore: prefer_const_literals_to_create_immutables
+                                  //               boxShadow: [
+                                  //                 BoxShadow(
+                                  //                   color: Colors.grey,
+                                  //                   offset: const Offset(
+                                  //                     5.0,
+                                  //                     5.0,
+                                  //                   ),
+                                  //                   blurRadius: 10.0,
+                                  //                   spreadRadius: 1.0,
+                                  //                 )
+                                  //               ]),
+                                  //           child: ClipRRect(
+                                  //             borderRadius:
+                                  //                 BorderRadius.circular(10),
+                                  //             child: Image(
+                                  //               // height: 100,
+                                  //               // width: 150,
+                                  //               image: AssetImage(
+                                  //                 "assets/smile.jpg",
+                                  //               ),
+                                  //             ),
+                                  //           ),
+                                  //         ),
+                                  //         SizedBox(height: 25),
+                                  //         const Text(
+                                  //           "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
+                                  //           textAlign: TextAlign.justify,
+                                  //           style: TextStyle(height: 1.8),
+                                  //         )
+                                  //       ]);
+                                  //   break;
+                                  default:
+                                    Get.dialog(
+                                        // context: context,
+
+                                        // applicationVersion: "0.1",
+                                        AlertDialog(
+                                      title: Text(
+                                        servicesList[index]["service_name"]
+                                            .toString()
+                                            .replaceAll('\\n', '\n'),
+                                      ),
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Text(
+                                            servicesList[index]['info'],
+                                          )
+                                        ],
+                                      ),
+                                    ));
+                                }
+
+                                // Get.to(() => const GatheringPage());
+                              },
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Container(
+                                          height: 100,
+                                          width: 100,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            color: Colors.black.withOpacity(.5),
+                                            image: DecorationImage(
+                                                image:
+                                                    AssetImage(tabs[index][1]),
+                                                fit: BoxFit.fill),
+                                          ),
+                                          // child: ClipRRect(
+                                          //   borderRadius: BorderRadius.circular(16),
+                                          //   child: Image.network(
+                                          //     "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Zm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+                                          //     fit: BoxFit.fill,
+                                          //     height: 120,
+                                          //     width: double.infinity,
+                                          //   ),
+                                          // ),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        index == 0 || index == 1
+                                            ? Container()
+                                            : Column(
+                                                children: [
+                                                  InkWell(
+                                                      onTap: () {
+                                                        name.text =
+                                                            servicesList[index]
+                                                                ["info"];
+                                                        Get.bottomSheet(
+                                                            Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .all(18),
+                                                          color: Colors.white,
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            child: Column(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  TextField(
+                                                                      maxLines:
+                                                                          5,
+                                                                      controller:
+                                                                          name),
+                                                                  SizedBox(
+                                                                      height:
+                                                                          20),
+                                                                  CustomButton(
+                                                                      label:
+                                                                          'Submit',
+                                                                      onPressed:
+                                                                          () async {
+                                                                        AllServices().updateService(
+                                                                            name.text,
+                                                                            document[index].id,
+                                                                            context);
+
+                                                                        servicesList[index]["info"] =
+                                                                            name.text;
+                                                                        // if (message.toString() ==
+                                                                        //         "" ||
+                                                                        //     message !=
+                                                                        //         null)
+                                                                        setState(
+                                                                            () {});
+                                                                        Get.back();
+                                                                        // print(
+                                                                        //     message);
+                                                                      })
+                                                                ]),
+                                                          ),
+                                                        ));
+                                                      },
+                                                      child: Icon(
+                                                          FontAwesomeIcons
+                                                              .penToSquare)),
+                                                  // SizedBox(height: 20),
+                                                  // InkWell(
+                                                  //     onTap: () {
+                                                  //       tabs.removeAt(index);
+                                                  //       setState(() {});
+                                                  //     },
+                                                  //     child: Icon(Icons.delete))
+                                                ],
+                                              ),
+                                        const SizedBox(
+                                          width: 20,
+                                        ),
+
+                                        // Container(
+                                        //   height: 100,
+                                        //   width: 120,
+                                        //   alignment: Alignment.center,
+                                        //   decoration: BoxDecoration(
+                                        //       borderRadius: BorderRadius.circular(18),
+                                        //       color: Colors.black.withOpacity(.5)),
+                                        //   child: Text(
+                                        //     tabs[index][0],
+                                        //     textAlign: TextAlign.center,
+                                        //     style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                                        //         fontWeight: FontWeight.w400,
+                                        //         color: Colors
+                                        //             .white), // style: const TextStyle(color: Colors.white),
+                                        //   ),
+                                        // ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 8,
+                                    ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.center,
+                                    //   children: const [
+                                    //     Icon(Icons.edit),
+                                    //     SizedBox(
+                                    //       width: 20,
+                                    //     ),
+                                    //     Icon(Icons.delete)
+                                    //   ],
+                                    // ),
+                                    // const SizedBox(
+                                    //   height: 10,
+                                    // ),
+                                    Text(
+                                      servicesList[index]["service_name"]
+                                          .toString()
+                                          .replaceAll('\\n', '\n'),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                              color: Colors.red,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                    ),
+                                  ]),
+                            ),
+                          ),
+                        ))
+                      ],
+                    ),
+                  )),
+      ),
     );
   }
 }
@@ -629,8 +758,10 @@ class _AdminHomePageState extends State<AdminHomePage> {
 class HomeWidget extends StatelessWidget {
   HomeWidget({
     Key? key,
+    required this.services,
   }) : super(key: key);
   final HomeController homeController = Get.find();
+  final List services;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -674,7 +805,7 @@ class HomeWidget extends StatelessWidget {
             const SizedBox(
               height: 30,
             ),
-            const WelcomePage(),
+            if (services.length > 0) WelcomePage(services: services),
             // logoWidget(),
             // const ButtonWidget(),
           ],
@@ -779,58 +910,91 @@ class DrawerPage extends StatelessWidget {
           //   //     applicationVersion: "0.1",
           //   //     children: [const LoremText1()]),
           // ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.contact_mail),
-            title: Text(
-              "Contact Us",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
+          if (homeController.authService.currentUser != null)
+            const SizedBox(
+              height: 16,
             ),
-            onTap: () => Get.to(() => const ContactPage()),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(Icons.contact_mail),
-            title: Text(
-              "Send Feedback",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
+          if (homeController.authService.currentUser != null)
+            ListTile(
+              tileColor: Colors.red,
+              // leading: const Icon(Icons.contact_mail),
+              title: Text(
+                "Contact Us",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              onTap: () => Get.to(() => const ContactPage()),
             ),
-            onTap: () => showAboutDialog(context: context),
-          ),
           const SizedBox(
             height: 16,
           ),
-          ListTile(
-            tileColor: Colors.red,
-            // leading: const Icon(FontAwesomeIcons.info),
-            title: Text(
-              "About App",
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium!
-                  .copyWith(color: Colors.white),
+          if (homeController.authService.currentUser != null)
+            ListTile(
+                tileColor: Colors.red,
+                // leading: const Icon(Icons.contact_mail),
+                title: Text(
+                  "Send Feedback",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: Colors.white),
+                ),
+                onTap: () {
+                  final feedBack = TextEditingController();
+                  Get.dialog(AlertDialog(
+                    title: Text("Send Feedback"),
+                    content: Column(mainAxisSize: MainAxisSize.min, children: [
+                      TextField(
+                        decoration: InputDecoration(
+                          label: Text('FeedBack'),
+                        ),
+                        controller: feedBack,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      CustomButton(
+                          label: "Submit",
+                          onPressed: () {
+                            Get.back();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text("We will get back to you soon")));
+                          })
+                    ]),
+                  ));
+                }),
+          if (homeController.authService.currentUser != null)
+            const SizedBox(
+              height: 16,
             ),
-            onTap: () => showAboutDialog(
-                context: context,
-                applicationName: "Heart Support",
-                applicationVersion: "0.1",
-                children: [const LoremText()]),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
+          if (homeController.authService.currentUser != null)
+            ListTile(
+              tileColor: Colors.red,
+              // leading: const Icon(FontAwesomeIcons.info),
+              title: Text(
+                "About App",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: Colors.white),
+              ),
+              onTap: () => showAboutDialog(
+                  context: context,
+                  applicationName: "Heart Support",
+                  applicationVersion: "0.1",
+                  children: [
+                    Text(
+                        """Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.
+Patients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.
+Heart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.""")
+                  ]),
+            ),
+          if (homeController.authService.currentUser != null)
+            const SizedBox(
+              height: 16,
+            ),
           ListTile(
             tileColor: Colors.red,
             // leading: const Icon(Icons.logout),
@@ -929,8 +1093,8 @@ class ButtonWidget extends StatelessWidget {
 }
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
-
+  WelcomePage({Key? key, required this.services}) : super(key: key);
+  final List services;
   @override
   State<WelcomePage> createState() => _WelcomePageState();
 }
@@ -941,500 +1105,612 @@ class _WelcomePageState extends State<WelcomePage> {
     return Center(
       child: Column(
         children: [
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
+          Wrap(
+            children: List.generate(
+              tabs.length,
+              (index) => Container(
+                width: 180,
+                child: Padding(
                   padding: const EdgeInsets.all(18),
                   child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "About HSA",
-                        //applicationVersion: "0.1",
+                    onTap: () {
+                      switch (index) {
+                        case 0:
+                          Get.to(DonationPage());
+                          break;
+                        case 1:
+                          launchUrl(
+                              Uri.parse("https://www.healthyhearts.org.au"));
+                          break;
+                        default:
+                          Get.dialog(
+                              // context: context,
 
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/heart.jpeg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          Text(
-                            "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
+                              // applicationVersion: "0.1",
+                              AlertDialog(
+                                  title: Text(
+                                    widget.services[index]["service_name"]
+                                        .toString()
+                                        .replaceAll('\\n', '\n'),
+                                  ),
+                                  //applicationVersion: "0.1",
+                                  content: SingleChildScrollView(
+                                    child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Container(
+                                            decoration:
+                                                BoxDecoration(boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey,
+                                                offset: const Offset(
+                                                  5.0,
+                                                  5.0,
+                                                ),
+                                                blurRadius: 10.0,
+                                                spreadRadius: 1.0,
+                                              )
+                                            ]),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image(
+                                                // height: 100,
+                                                // width: 150,
+                                                image: AssetImage(
+                                                  tabs[index][1],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 15),
+                                          Text(
+                                            widget.services[index]["info"],
+                                            textAlign: TextAlign.justify,
+                                            style: TextStyle(height: 1.8),
+                                          )
+                                        ]),
+                                  )));
+                      }
+                    },
                     child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.grey.shade200, spreadRadius: 1),
+                        ],
+                      ),
                       child: Column(
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(8),
                             child: Image(
                               height: 100,
                               width: 150,
                               image: AssetImage(
-                                "assets/heart.jpeg",
+                                tabs[index][1],
                               ),
                             ),
                           ),
+                          SizedBox(
+                            height: 8,
+                          ),
                           Padding(
-                            padding: const EdgeInsets.only(left: 00),
+                            padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              "About HSA",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
+                              widget.services[index]['service_name']
+                                  .toString()
+                                  .replaceAll('\\n', '\n'),
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.headline6,
                             ),
+                          ),
+                          SizedBox(
+                            height: 8,
                           )
                         ],
                       ),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "Healthy Eating",
-                        //applicationVersion: "0.1",
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/diet.jpeg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          const Text(
-                            "Eat your meals with no added salt and no added sugar. Enjoy a variety of fruits, vegetables, whole grains and lean protein, and try seasoning with herbs and spices instead. Your heart and your tastebuds will thank you!",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/diet.jpeg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 0),
-                            child: Text(
-                              "Healthy Eating",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
-          // SizedBox(height: 20),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "Sleep Well",
-                        //applicationVersion: "0.1",
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/sleep.jpeg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          const Text(
-                            "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/sleep.jpeg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              "Sleep Well",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "Regular Exercise",
-                        //applicationVersion: "0.1",
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/exercise.jpeg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 25),
-                          const Text(
-                            "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/exercise.jpeg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Text(
-                              "Regular\nExercise",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: InkWell(
-                    onTap: () => Get.to(DonationPage()),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/dontae.jpeg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Text(
-                              "Easy to\nDonate",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Link(
-                    target: LinkTarget.self,
-                    uri: Uri.parse("https://www.healthyhearts.org.au"),
-                    builder: (context, followLink) => InkWell(
-                      onTap: followLink,
-                      child: Container(
-                        child: Column(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(6),
-                              child: Image(
-                                height: 100,
-                                width: 150,
-                                image: AssetImage(
-                                  "assets/more.jpeg",
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: Text(
-                                "Healthy Heart\nChalanges",
-                                style: TextStyle(
-                                    fontSize: 21, fontWeight: FontWeight.w400),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(18),
-                  child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "Commit to Quit ",
-                        //applicationVersion: "0.1",
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/vices.jpg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 25),
-                          const Text(
-                            "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/vices.jpg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 00),
-                            child: Text(
-                              "Commit to Quit",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: InkWell(
-                    onTap: () => showAboutDialog(
-                        context: context,
-                        applicationName: "Stress Less Smile More",
-                        //applicationVersion: "0.1",
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                // ignore: prefer_const_literals_to_create_immutables
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey,
-                                    offset: const Offset(
-                                      5.0,
-                                      5.0,
-                                    ),
-                                    blurRadius: 10.0,
-                                    spreadRadius: 1.0,
-                                  )
-                                ]),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image(
-                                // height: 100,
-                                // width: 150,
-                                image: AssetImage(
-                                  "assets/smile.jpg",
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 25),
-                          const Text(
-                            "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(height: 1.8),
-                          )
-                        ]),
-                    child: Container(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Image(
-                              height: 100,
-                              width: 150,
-                              image: AssetImage(
-                                "assets/smile.jpg",
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 00),
-                            child: Text(
-                              "Stress Less\nSmile More",
-                              style: TextStyle(
-                                  fontSize: 21, fontWeight: FontWeight.w400),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(18),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "About HSA",
+          //               //applicationVersion: "0.1",
+
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/heart.jpeg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 15),
+          //                 Text(
+          //                   "Beginning as the Zipper Club in 1986, Heart Support Australia was formally established as a national not-for-profit organisation in 1989 providing support, information and encouragement for people who have been affected by a cardiac event.\n\nPatients who have experienced a cardiac event such as a heart attack are twice as likely to die prematurely when compared with the general population, making secondary heart disease prevention essential.\n\nHeart Support Australia’s mission is to facilitate the transition of cardiac patients from hospital to home by providing the physical, psychological, and social support to help reduce the risk of a secondary cardiac event, for as long as is needed.",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/heart.jpeg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 00),
+          //                   child: Text(
+          //                     "About HSA",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.all(18.0),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "Healthy Eating",
+          //               //applicationVersion: "0.1",
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/diet.jpeg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 15),
+          //                 const Text(
+          //                   "Eat your meals with no added salt and no added sugar. Enjoy a variety of fruits, vegetables, whole grains and lean protein, and try seasoning with herbs and spices instead. Your heart and your tastebuds will thank you!",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/diet.jpeg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 0),
+          //                   child: Text(
+          //                     "Healthy Eating",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // // SizedBox(height: 20),
+          // Container(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(18),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "Sleep Well",
+          //               //applicationVersion: "0.1",
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/sleep.jpeg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 15),
+          //                 const Text(
+          //                   "Set yourself up for the day ahead and introduce an evening routine to help you get the recommended seven to eight hours’ sleep at night.",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/sleep.jpeg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 10),
+          //                   child: Text(
+          //                     "Sleep Well",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.all(18.0),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "Regular Exercise",
+          //               //applicationVersion: "0.1",
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/exercise.jpeg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 25),
+          //                 const Text(
+          //                   "Life has become much more sedentary, and our hearts are paying the price. Conquer at least eight thousand steps in your day and reap the healthy heart rewards.",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/exercise.jpeg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 10),
+          //                   child: Text(
+          //                     "Regular\nExercise",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(18),
+          //         child: InkWell(
+          //           onTap: () => Get.to(DonationPage()),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/dontae.jpeg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 10),
+          //                   child: Text(
+          //                     "Easy to\nDonate",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.all(18.0),
+          //         child: Link(
+          //           target: LinkTarget.self,
+          //           uri: Uri.parse("https://www.healthyhearts.org.au"),
+          //           builder: (context, followLink) => InkWell(
+          //             onTap: followLink,
+          //             child: Container(
+          //               child: Column(
+          //                 children: [
+          //                   ClipRRect(
+          //                     borderRadius: BorderRadius.circular(6),
+          //                     child: Image(
+          //                       height: 100,
+          //                       width: 150,
+          //                       image: AssetImage(
+          //                         "assets/more.jpeg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                   Padding(
+          //                     padding: const EdgeInsets.only(right: 10),
+          //                     child: Text(
+          //                       "Healthy Heart\nChalanges",
+          //                       style: TextStyle(
+          //                           fontSize: 21, fontWeight: FontWeight.w400),
+          //                     ),
+          //                   )
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Padding(
+          //         padding: const EdgeInsets.all(18),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "Commit to Quit ",
+          //               //applicationVersion: "0.1",
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/vices.jpg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 25),
+          //                 const Text(
+          //                   "Make a commitment to your heart and give up smoking, alcohol, junk foods, or any other vice that is getting in the way of a healthy heart.",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/vices.jpg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 00),
+          //                   child: Text(
+          //                     "Commit to Quit",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Padding(
+          //         padding: const EdgeInsets.all(18.0),
+          //         child: InkWell(
+          //           onTap: () => showAboutDialog(
+          //               context: context,
+          //               applicationName: "Stress Less Smile More",
+          //               //applicationVersion: "0.1",
+          //               children: [
+          //                 Container(
+          //                   decoration: BoxDecoration(
+          //                       // ignore: prefer_const_literals_to_create_immutables
+          //                       boxShadow: [
+          //                         BoxShadow(
+          //                           color: Colors.grey,
+          //                           offset: const Offset(
+          //                             5.0,
+          //                             5.0,
+          //                           ),
+          //                           blurRadius: 10.0,
+          //                           spreadRadius: 1.0,
+          //                         )
+          //                       ]),
+          //                   child: ClipRRect(
+          //                     borderRadius: BorderRadius.circular(10),
+          //                     child: Image(
+          //                       // height: 100,
+          //                       // width: 150,
+          //                       image: AssetImage(
+          //                         "assets/smile.jpg",
+          //                       ),
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(height: 25),
+          //                 const Text(
+          //                   "An important factor in having a healthy heart is to be happy. Commit to making some time for yourself and spend an hour each day doing something just for you.",
+          //                   textAlign: TextAlign.justify,
+          //                   style: TextStyle(height: 1.8),
+          //                 )
+          //               ]),
+          //           child: Container(
+          //             child: Column(
+          //               children: [
+          //                 ClipRRect(
+          //                   borderRadius: BorderRadius.circular(6),
+          //                   child: Image(
+          //                     height: 100,
+          //                     width: 150,
+          //                     image: AssetImage(
+          //                       "assets/smile.jpg",
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(right: 00),
+          //                   child: Text(
+          //                     "Stress Less\nSmile More",
+          //                     style: TextStyle(
+          //                         fontSize: 21, fontWeight: FontWeight.w400),
+          //                   ),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

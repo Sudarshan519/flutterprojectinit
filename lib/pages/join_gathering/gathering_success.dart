@@ -59,7 +59,7 @@ class GatheringSuccess extends StatelessWidget {
                 height: 30,
               ),
               GestureDetector(
-                onTap: () => Get.to(() => const HomePage()),
+                onTap: () => Get.back(),
                 child: Container(
                     color: Colors.red[600],
                     alignment: Alignment.center,

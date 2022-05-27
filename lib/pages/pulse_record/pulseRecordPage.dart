@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/findPeerSupportGroup/findPeerSupportGroup.dart';
 import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
@@ -71,45 +72,49 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
                                   textController.text =
                                       records[index].split(" ").first;
                                   value.text = records[index].split(" - ")[1];
-                                  await Get.bottomSheet(Container( padding:const EdgeInsets.all(18),
+                                  await Get.bottomSheet(Container(
+                                      padding: const EdgeInsets.all(18),
                                       color: Colors.white,
                                       child: Column(
-                                        mainAxisSize:MainAxisSize.min,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
-                                        TextFormField(
-                                          controller: textController,
-                                          decoration: InputDecoration(
-                                              labelStyle: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6,
-                                              floatingLabelBehavior:
-                                                  FloatingLabelBehavior.always,
-                                              isCollapsed: false,
-                                              labelText: "Date"),
-                                        ),
-                                        const SizedBox(
-                                          height: 18,
-                                        ),
-                                        TextFormField(
-                                          controller: value,
-                                          decoration: InputDecoration(
-                                              labelStyle: Theme.of(context)
-                                                  .textTheme
-                                                  .headline6,
-                                              floatingLabelBehavior:
-                                                  FloatingLabelBehavior.always,
-                                              isCollapsed: false,
-                                              labelText: "Value"),
-                                        ),
-                                        const SizedBox(
-                                          height: 18,
-                                        ),
-                                        CustomButton(
-                                            label: "Submit",
-                                            onPressed: () {
-                                              Get.back();
-                                            })
-                                      ], )));
+                                          TextFormField(
+                                            controller: textController,
+                                            decoration: InputDecoration(
+                                                labelStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior
+                                                        .always,
+                                                isCollapsed: false,
+                                                labelText: "Date"),
+                                          ),
+                                          const SizedBox(
+                                            height: 18,
+                                          ),
+                                          TextFormField(
+                                            controller: value,
+                                            decoration: InputDecoration(
+                                                labelStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .headline6,
+                                                floatingLabelBehavior:
+                                                    FloatingLabelBehavior
+                                                        .always,
+                                                isCollapsed: false,
+                                                labelText: "Value"),
+                                          ),
+                                          const SizedBox(
+                                            height: 18,
+                                          ),
+                                          CustomButton(
+                                              label: "Submit",
+                                              onPressed: () {
+                                                Get.back();
+                                              })
+                                        ],
+                                      )));
                                   records[index] =
                                       textController.text + " - " + value.text;
                                   setState(() {});
@@ -132,7 +137,7 @@ class _RecordDetailPageState extends State<RecordDetailPage> {
             InkWell(
               onTap: () async {
                 await Get.bottomSheet(Container(
-                  padding:const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(18),
                     color: Colors.white,
                     child: Column(children: [
                       TextFormField(
@@ -196,6 +201,8 @@ class BottomNavigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+   
+    
     return Container(
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 18),

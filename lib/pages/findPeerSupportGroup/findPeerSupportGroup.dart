@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_peer_support_group/joinPeerSupportGroup.dart';
@@ -29,6 +30,9 @@ class FindPeerSupportGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController homeController = Get.find();
+    var user = homeController.authService.currentUser;
+    print(user);
     return Scaffold(
       drawer: DrawerPage(),
       body: SingleChildScrollView(
@@ -42,20 +46,23 @@ class FindPeerSupportGroup extends StatelessWidget {
             height: 80,
             width: double.infinity,
           ),
-          Text(
-            "Register to host a peer support group",
-            style: textStyle,
-          ),
-          SizedBox(
-            height: 60,
-          ),
-          SizedBox(
-              width: 250,
-              child: CustomButton(
-                  label: 'Register Here',
-                  onPressed: () {
-                    Get.to(() => RegistrationType());
-                  })),
+          if (user == null)
+            Text(
+              "Register to host a peer support group",
+              style: textStyle,
+            ),
+          if (user == null)
+            SizedBox(
+              height: 60,
+            ),
+          if (user == null)
+            SizedBox(
+                width: 250,
+                child: CustomButton(
+                    label: 'Register Here',
+                    onPressed: () {
+                      Get.to(() => RegistrationType());
+                    })),
           SizedBox(
             height: 80,
             width: double.infinity,

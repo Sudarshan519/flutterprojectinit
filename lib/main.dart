@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:projectinit/firebase_options.dart';
+import 'package:projectinit/pages/home/homepage.dart';
 import 'package:projectinit/pages/splash/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
         //  scaffoldBackgroundColor: Colors.pink[200],
         primarySwatch: Colors.red,
       ),
-      home: const SplashPage(),
+      home: SplashPage(),
     );
   }
 }

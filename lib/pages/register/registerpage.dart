@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projectinit/controllers/homeController.dart';
 import 'package:projectinit/pages/join_gathering/gathering_nearby.dart';
 import 'package:projectinit/pages/join_gathering/join_gathering.dart';
-import 'package:projectinit/services/firestoreService.dart';
+import 'package:projectinit/services/firebase_service.dart';
 import 'package:projectinit/utils/validators.dart';
 import 'package:get/get.dart';
 
@@ -71,7 +71,7 @@ class RegisterPage extends StatelessWidget {
                       label: "Register",
                       onPressed: () {
                         final HomeController homeController = Get.find();
-                        // print("validating");
+                        print("validating");
                         if (fomrKey.currentState!.validate()) {
                           var data = {
                             "date": date.text,
@@ -79,9 +79,10 @@ class RegisterPage extends StatelessWidget {
                             "time": time.text,
                             "type": Get.arguments,
                             "userid":
-                                homeController.authService.currentUser!.uid,
-                            "username": homeController
-                                .authService.currentUser!.displayName
+                                'adminuser', //  homeController.authService.currentUser!.uid,
+                            "username": 'admin'
+                            //  homeController
+                            //     .authService.currentUser!.displayName
                           };
                           print(data);
                           gatheringService.joinGathering(data);
